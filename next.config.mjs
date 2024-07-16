@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     outputFileTracingIncludes: {
-      "/api/usrs/[id]": ["./app/database/**/*"],
+      "/api/users/[id]": ["./app/database/**/*.json"],
     },
   },
 };
