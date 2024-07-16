@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	outputFileTracing: true
+	outputFileTracingIncludes: {
+		'/api/usrs/[id]': ['./app/database/**/*.json']
+	}
 };
 
 export default nextConfig;
