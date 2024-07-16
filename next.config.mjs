@@ -1,10 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    outputFileTracingIncludes: {
-      // "/api/users/[id]": ["./app/database/**/*.json"],
-    },
-  },
-};
+const nextConfig = {};
 
 export default nextConfig;
