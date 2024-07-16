@@ -2,7 +2,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
-import { Tables } from "@/interfaces";
+import { Tables } from "@/app/interfaces";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

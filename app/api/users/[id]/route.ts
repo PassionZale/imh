@@ -4,7 +4,7 @@ type Params = {
   id: string;
 };
 
-import db from "@/database";
+import db from "@/app/database";
 
 export async function GET(request: Request, context: { params: Params }) {
   const id = context.params.id;
