@@ -1,12 +1,9 @@
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { Tables } from "@/app/interfaces";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const file = join(__dirname, "db.json");
+const file = join(process.cwd(), "/app/database/db.json");
 
 const defaultData: Tables = {
   users: [
