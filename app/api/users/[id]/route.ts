@@ -9,13 +9,13 @@ import db from "@/app/database";
 export async function GET(request: Request, context: { params: Params }) {
   const id = context.params.id;
 
-  console.log(id);
-
   await db.read();
 
-  return NextResponse.json(db.data?.users ?? []);
+  const users = db.data?.users ?? [];
 
-  // TODO response user lat/lon
+  const found = users.find((user) => user.id === id);
+
+  return NextResponse.json(found);
 }
 
 export async function PATCH(request: NextRequest, context: { params: Params }) {
