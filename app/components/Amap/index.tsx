@@ -2,7 +2,7 @@
 
 import { User } from "@/app/interfaces";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Map from "./Map";
 import Profile from "./Profile";
 import Context from "./context";
@@ -52,4 +52,10 @@ const Amap = () => {
   );
 };
 
-export default Amap;
+export default function LazyAmap() {
+  return (
+    <Suspense fallback="loading...">
+      <Amap />
+    </Suspense>
+  );
+}
