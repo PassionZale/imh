@@ -9,7 +9,12 @@ import Context from "./context";
 
 async function fetchData(userId?: string): Promise<User | undefined> {
   if (userId) {
-    const res = await fetch(`http://localhost:3000/api/users/${userId}`, {
+    const basePath =
+      process.env.NODE_ENV === "production"
+        ? "https://imh.lovchun.com"
+        : "http://localhost:3000";
+
+    const res = await fetch(`${basePath}/api/users/${userId}`, {
       cache: "no-store",
     });
 
