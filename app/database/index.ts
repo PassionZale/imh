@@ -3,7 +3,8 @@ import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 import { Tables } from "@/app/interfaces";
 
-const file = join(process.cwd(), "/app/database/db.json");
+// const file = join(process.cwd(), "/tmp/db.json");
+const file = join("/tmp/db.json");
 
 const defaultData: Tables = {
   users: [
