@@ -1,5 +1,5 @@
 import Amap from "@/app/components/Amap";
 
-export default function Home() {
+export default async function Page() {
   return <Amap />;
 }

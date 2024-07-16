@@ -16,7 +16,7 @@ const defaultData: Tables = {
     {
       id: process.env.WS_PRIVATE_KEY_1,
       nickname: "Lei Zhang",
-      avatar: "//www.lovchun.com/images/avatar.jpg",
+      avatar: "https://www.lovchun.com/images/avatar.jpg",
     },
   ],
 };

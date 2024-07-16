@@ -8,4 +8,6 @@ export type User = {
   lat?: number;
   /** 维度 */
   lon?: number;
+	/** 更新时间戳 */
+	updatedAt?: number;
 };

@@ -6,7 +6,7 @@ type Params = {
 
 import db from "@/app/database";
 
-export async function GET(request: Request, context: { params: Params }) {
+export async function GET(_: Request, context: { params: Params }) {
   const id = context.params.id;
 
   await db.read();
