@@ -15,7 +15,7 @@ const Profile = () => {
 
   return (
     <div className="fixed inset-x-0 bottom-0 text-center">
-      <div className="bg-white opacity-80 p-[10px]">
+      <div className="bg-white opacity-80 p-[20px]">
         <div className="flex justify-center items-center ">
           <Image
             className="rounded-full mr-2"
