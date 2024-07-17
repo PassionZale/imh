@@ -54,6 +54,7 @@ function Map() {
         });
 
         map.setCenter([user.longitude, user.latitude]);
+        map.clearMap();
         map.add(marker);
       }
     }
