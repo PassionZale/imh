@@ -6,8 +6,8 @@ export type User = {
   avatar?: string;
   /** 经度 */
   longitude?: number;
-  /** 维度 */
+  /** 纬度 */
   latitude?: number;
-	/** 更新时间戳 */
-	updatedAt?: number;
+	/** 更新时间 */
+	updatedAt?: string;
 };

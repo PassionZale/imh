@@ -53,7 +53,7 @@ function Map() {
           position: [user.longitude, user.latitude],
         });
 
-        map.setCenter([user.longitude, user.longitude]);
+        map.setCenter([user.longitude, user.latitude]);
         map.add(marker);
       }
     }
