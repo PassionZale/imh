@@ -9,7 +9,6 @@ function Map() {
   const { user } = useContext(Context);
 
   useEffect(() => {
-    // https://lbs.amap.com/api/javascript-api-v2/guide/abc/amap-react
     if (typeof window !== "undefined") {
       //@ts-ignore
       window._AMapSecurityConfig = {
@@ -31,44 +30,6 @@ function Map() {
           });
 
           mapRef.current = map;
-
-          // marker
-          // const marker = new AMap.Marker({
-          //   icon: "/images/marker.png",
-          //   title: "Lei",
-          //   offset: new AMap.Pixel(-10, -32),
-          //   position: [114.32032, 30.453795],
-          // });
-
-          // map.setCenter([114.32032, 30.453795]);
-          // map.add(marker);
-
-          // AMap.plugin("AMap.Geolocation", () => {
-          //   const geolocation = new AMap.Geolocation({
-          //     enableHighAccuracy: true, // 是否使用高精度定位，默认：true
-          //     timeout: 10000, // 设置定位超时时间，默认：无穷大
-          //     offset: new AMap.Pixel(10, 20, // 定位按钮的停靠位置的偏移量
-          //     zoomToAccuracy: true, //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-          //     position: "RB", //  定位按钮的排放位置,  RB表示右下
-          //   });
-
-          //   geolocation.getCurrentPosition(function (status, result) {
-          //     if (status == "complete") {
-          //       // marker
-          //       const marker = new AMap.Marker({
-          //         icon: "/images/marker.png",
-          //         title: "Lei",
-          //         offset: new AMap.Pixel(-10, -32),
-          //         position: result.position,
-          //       });
-
-          //       map.setCenter(result.position);
-          //       map.add(marker);
-          //     } else {
-          //       onError(result);
-          //     }
-          //   });
-          // });
         });
       });
     }
@@ -84,15 +45,15 @@ function Map() {
     const map = mapRef.current;
 
     if (user && AMap && map) {
-      if (user.lat && user.lon) {
+      if (user.longitude && user.latitude) {
         const marker = new AMap.Marker({
           icon: "/images/marker.png",
           title: user.nickname,
           offset: new AMap.Pixel(-10, -32),
-          position: [user.lat, user.lon],
+          position: [user.longitude, user.latitude],
         });
 
-        map.setCenter([user.lat, user.lon]);
+        map.setCenter([user.longitude, user.longitude]);
         map.add(marker);
       }
     }

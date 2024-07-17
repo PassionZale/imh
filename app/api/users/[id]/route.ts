@@ -38,6 +38,4 @@ export async function PATCH(request: NextRequest, context: { params: Params }) {
   await db.write();
 
   return NextResponse.json(db.data.users);
-
-  // TODO update user lat/lon
 }
