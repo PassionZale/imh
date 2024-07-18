@@ -3,7 +3,11 @@
 import { useRef, useEffect, memo, useContext } from "react";
 import Context from "./context";
 
-function Map() {
+interface MapProps {
+  onLoaded?: () => void;
+}
+
+function Map(props: MapProps) {
   const amapRef = useRef<any>(null);
   const mapRef = useRef<any>(null);
   const { user } = useContext(Context);
@@ -22,6 +26,8 @@ function Map() {
         }).then((AMap) => {
           amapRef.current = AMap;
 
+          props.onLoaded?.();
+
           // map
           const map = new AMap.Map("container", {
             viewMode: "3D", // 是否为3D地图模式
@@ -38,6 +44,7 @@ function Map() {
       // @ts-ignore
       mapRef.current?.destroy();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

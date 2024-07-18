@@ -8,31 +8,36 @@ import Profile from "./Profile";
 import Context from "./context";
 
 async function fetchData(userId?: string): Promise<User | undefined> {
-  if (userId) {
-    const basePath =
-      process.env.NODE_ENV === "production"
-        ? "https://imh.lovchun.com"
-        : "http://localhost:3000";
+  if (!userId) return;
 
-    const res = await fetch(`${basePath}/api/users/${userId}`, {
-      cache: "no-store",
-    });
+  const basePath =
+    process.env.NODE_ENV === "production"
+      ? "https://imh.lovchun.com"
+      : "http://localhost:3000";
 
-    if (!res.ok) {
-      return;
-    }
+  const res = await fetch(`${basePath}/api/users/${userId}`, {
+    cache: "no-store",
+  });
 
-    const user = await res.json();
-
-    return user;
+  if (!res.ok) {
+    return;
   }
+
+  const user = await res.json();
+
+  return user;
 }
 
 const Amap = () => {
   const searchParams = useSearchParams();
   const [user, setUser] = useState<User>();
 
-  const userId = searchParams.get("userId")!;
+  const userId =
+    searchParams.get("userId") || process.env.NEXT_PUBLIC_DEFAULT_WS;
+
+  const initUser = () => {
+    fetchData(userId).then((user) => setUser(user));
+  };
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
@@ -46,7 +51,7 @@ const Amap = () => {
 
   return (
     <Context.Provider value={{ user: user }}>
-      <Map />
+      <Map onLoaded={initUser} />
       {user && <Profile />}
     </Context.Provider>
   );
