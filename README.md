@@ -1,6 +1,13 @@
 # imh
 
-A new Flutter project.
+**imh** = "I'm here" — A personal assistant app that integrates commonly used utilities and tools.
+
+## Project Overview
+
+This is a personal utility collection app where I can implement small features I use daily. The specific functionality is still being explored.
+
+- **Package**: `com.passionzale.imh`
+- **Dart SDK**: ^3.11.4
 
 ## Getting Started
 

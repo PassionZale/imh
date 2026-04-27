@@ -2,7 +2,7 @@
 
 ## Overview
 
-this is a bright, chunky, and friendly design system. Every element uses rounded, approachable shapes with generous sizing to ensure comfort and accessibility for young learners. The system prioritizes large touch targets, clear visual hierarchy, reward-oriented feedback, and COPPA-compliant patterns. Colors are vivid but carefully balanced to avoid sensory overload.
+this is a bright, chunky, and friendly design system. Every element uses rounded, approachable shapes with generous sizing. The system prioritizes large touch targets, clear visual hierarchy, reward-oriented feedback. Colors are vivid but carefully balanced to avoid sensory overload.
 
 ---
 
@@ -124,10 +124,9 @@ surface-raised (#F9FAFB) fill, 2px border-default border, 20px corners, 24px pad
 ## Do's and Don'ts
 
 1. **Do** ensure all interactive elements meet a minimum 48px touch target.
-2. **Do** use simple, age-appropriate language (aim for a 2nd-grade reading level).
+2. **Do** use simple, age-appropriate language.
 3. **Do** incorporate reward animations (stars, confetti, bounce) for correct answers and milestones.
 4. **Don't** use more than three bright colors in a single view -- keep it vivid but not overwhelming.
-5. **Do** maintain COPPA compliance: no personal data collection, no external links without parental gate.
 6. **Don't** rely on text alone for navigation -- always pair labels with icons or illustrations.
 7. **Do** provide generous padding and spacing between interactive elements to prevent accidental taps.
 8. **Don't** use time pressure or countdown mechanics that could cause anxiety.

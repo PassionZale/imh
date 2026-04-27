@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**imh** is a Flutter application targeting children's education with a playful, COPPA-compliant design system. The app uses bright colors, rounded shapes, generous spacing, and reward-oriented feedback.
+**imh** is a personal assistant app that integrates commonly used utilities and tools. The name "imh" stands for "I'm here". Specific functionality is still being explored.
 
 - **Package**: `com.passionzale.imh`
 - **Dart SDK**: ^3.11.4
@@ -87,7 +87,7 @@ When implementing UI components, follow `DESIGN.md` specifications:
 - **Spacing**: Base unit 8px, use generous padding for young users
 - **Border Radius**: Minimum 12px, buttons use 20px+
 - **Touch Targets**: Minimum 48px for all interactive elements
-- **Accessibility**: Pair labels with icons, use age-appropriate language (2nd-grade reading level)
+- **Accessibility**: Pair labels with icons, use age-appropriate language
 
 ### Platform-Specific Configuration
 
