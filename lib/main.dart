@@ -1,6 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kDebugMode) {
+    WakelockPlus.enable();
+  }
   runApp(const MyApp());
 }
 
@@ -108,6 +114,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'kDebugMode: $kDebugMode',
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
         ),
