@@ -53,8 +53,8 @@ flutter test --coverage
 # Analyze code
 flutter analyze
 
-# Format code
-flutter format .
+# Format code (use dart format, not flutter format)
+dart format .
 ```
 
 ### Dependencies
