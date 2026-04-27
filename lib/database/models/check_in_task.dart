@@ -1,5 +1,6 @@
 class CheckInTask {
   final int? id;
+  final int userId;
   final String title;
   final bool isEnabled;
   final int frequency;
@@ -8,6 +9,7 @@ class CheckInTask {
 
   CheckInTask({
     this.id,
+    required this.userId,
     required this.title,
     this.isEnabled = true,
     this.frequency = 1,
@@ -19,6 +21,7 @@ class CheckInTask {
   Map<String, Object?> toMap() {
     return {
       'id': id,
+      'user_id': userId,
       'title': title,
       'is_enabled': isEnabled ? 1 : 0,
       'frequency': frequency,
@@ -30,6 +33,7 @@ class CheckInTask {
   factory CheckInTask.fromMap(Map<String, Object?> map) {
     return CheckInTask(
       id: map['id'] as int?,
+      userId: map['user_id'] as int,
       title: map['title'] as String,
       isEnabled: (map['is_enabled'] as int) == 1,
       frequency: map['frequency'] as int,
@@ -40,6 +44,7 @@ class CheckInTask {
 
   CheckInTask copyWith({
     int? id,
+    int? userId,
     String? title,
     bool? isEnabled,
     int? frequency,
@@ -48,6 +53,7 @@ class CheckInTask {
   }) {
     return CheckInTask(
       id: id ?? this.id,
+      userId: userId ?? this.userId,
       title: title ?? this.title,
       isEnabled: isEnabled ?? this.isEnabled,
       frequency: frequency ?? this.frequency,

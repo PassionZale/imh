@@ -40,6 +40,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE check_in_tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
         title TEXT NOT NULL,
         is_enabled INTEGER NOT NULL DEFAULT 1,
         frequency INTEGER NOT NULL DEFAULT 1,
@@ -60,6 +61,7 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE car (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
         brand TEXT NOT NULL,
         model TEXT NOT NULL,
         plate_number TEXT NOT NULL,
@@ -90,6 +92,7 @@ class DatabaseHelper {
       await db.execute('''
         CREATE TABLE check_in_tasks (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL,
           title TEXT NOT NULL,
           is_enabled INTEGER NOT NULL DEFAULT 1,
           frequency INTEGER NOT NULL DEFAULT 1,
@@ -112,6 +115,7 @@ class DatabaseHelper {
       await db.execute('''
         CREATE TABLE car (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL,
           brand TEXT NOT NULL,
           model TEXT NOT NULL,
           plate_number TEXT NOT NULL,

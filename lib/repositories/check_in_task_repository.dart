@@ -5,6 +5,7 @@ class CheckInTaskRepository {
   Future<CheckInTask> create(CheckInTask task) async {
     final db = await DatabaseHelper.instance.db;
     final id = await db.insert('check_in_tasks', {
+      'user_id': task.userId,
       'title': task.title,
       'is_enabled': task.isEnabled ? 1 : 0,
       'frequency': task.frequency,
@@ -14,30 +15,35 @@ class CheckInTaskRepository {
     return task.copyWith(id: id);
   }
 
-  Future<CheckInTask?> getById(int id) async {
+  Future<CheckInTask?> getById(int id, int userId) async {
     final db = await DatabaseHelper.instance.db;
     final maps = await db.query(
       'check_in_tasks',
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'id = ? AND user_id = ?',
+      whereArgs: [id, userId],
       limit: 1,
     );
     if (maps.isEmpty) return null;
     return CheckInTask.fromMap(maps.first);
   }
 
-  Future<List<CheckInTask>> getAll() async {
-    final db = await DatabaseHelper.instance.db;
-    final maps = await db.query('check_in_tasks', orderBy: 'id DESC');
-    return maps.map((map) => CheckInTask.fromMap(map)).toList();
-  }
-
-  Future<List<CheckInTask>> getEnabled() async {
+  Future<List<CheckInTask>> getByUser(int userId) async {
     final db = await DatabaseHelper.instance.db;
     final maps = await db.query(
       'check_in_tasks',
-      where: 'is_enabled = ?',
-      whereArgs: [1],
+      where: 'user_id = ?',
+      whereArgs: [userId],
+      orderBy: 'id DESC',
+    );
+    return maps.map((map) => CheckInTask.fromMap(map)).toList();
+  }
+
+  Future<List<CheckInTask>> getEnabledByUser(int userId) async {
+    final db = await DatabaseHelper.instance.db;
+    final maps = await db.query(
+      'check_in_tasks',
+      where: 'is_enabled = ? AND user_id = ?',
+      whereArgs: [1, userId],
       orderBy: 'id DESC',
     );
     return maps.map((map) => CheckInTask.fromMap(map)).toList();
