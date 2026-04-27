@@ -6,8 +6,8 @@ echo "🔍 Searching for connected devices..."
 DEVICE_ID=$(adb devices | awk 'NR>1 && $2=="device" && $1 !~ /^emulator/ {print $1; exit}')
 
 if [ -z "$DEVICE_ID" ]; then
-  echo "❌ No device found"
-  exit 1
+  echo "ℹ️ No Android device connected, skipping ADB fix"
+  exit 0
 fi
 
 # Check manufacturer
