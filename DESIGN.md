@@ -1,8 +1,8 @@
-# KidLearn Design System
+# Design System
 
 ## Overview
 
-KidLearn is a bright, chunky, and friendly design system built for children's educational apps targeting ages 5-12. Every element uses rounded, approachable shapes with generous sizing to ensure comfort and accessibility for young learners. The system prioritizes large touch targets, clear visual hierarchy, reward-oriented feedback, and COPPA-compliant patterns. Colors are vivid but carefully balanced to avoid sensory overload.
+this is a bright, chunky, and friendly design system. Every element uses rounded, approachable shapes with generous sizing to ensure comfort and accessibility for young learners. The system prioritizes large touch targets, clear visual hierarchy, reward-oriented feedback, and COPPA-compliant patterns. Colors are vivid but carefully balanced to avoid sensory overload.
 
 ---
 
@@ -108,7 +108,7 @@ surface-raised (#F9FAFB) fill, 2px border-default border, 20px corners, 24px pad
 - **Unchecked**: #FFFFFF fill, 2px #9CA3AF border.
 - **Checked**: #3B82F6 fill, 2px #3B82F6 border, #FFFFFF checkmark.
 - **Disabled**: #F3F4F6 fill, 2px #E5E7EB border, #9CA3AF checkmark.
-28px (larger for kids), 8px border radius. shadow-focus focus ring.
+28px, 8px border radius. shadow-focus focus ring.
 - Animated bounce on check
 
 ### Radio Buttons
