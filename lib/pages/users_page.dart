@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../database/models/user.dart';
 import '../repositories/user_repository.dart';
+import '../services/current_user_service.dart';
 import '../services/image_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -66,6 +67,12 @@ class _UsersPageState extends State<UsersPage> {
 
     if (confirmed == true) {
       await _repo.delete(user.id!);
+      final remaining = await _repo.getAll();
+      if (remaining.isEmpty) {
+        CurrentUserService.instance.clearCurrentUser();
+      } else if (CurrentUserService.instance.currentUser?.id == user.id) {
+        CurrentUserService.instance.setCurrentUser(remaining.first);
+      }
       _loadUsers();
     }
   }
@@ -168,7 +175,11 @@ class _UserListItem extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
+                backgroundColor: AppColors.surfaceRaised,
                 backgroundImage: _getAvatarImage(),
+                child: _getAvatarImage() == null
+                    ? const Icon(Icons.person, size: 28, color: AppColors.textMuted)
+                    : null,
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -219,7 +230,7 @@ class _UserListItem extends StatelessWidget {
         return FileImage(file);
       }
     }
-    return const AssetImage('assets/images/default_avatar.jpeg');
+    return null;
   }
 }
 
@@ -306,9 +317,13 @@ class _AddEditUserDialogState extends State<AddEditUserDialog> {
               onTap: _pickAvatar,
               child: CircleAvatar(
                 radius: 40,
+                backgroundColor: AppColors.surfaceRaised,
                 backgroundImage: _avatarPath != null && _avatarPath!.isNotEmpty
                     ? FileImage(File(_avatarPath!))
-                    : const AssetImage('assets/images/default_avatar.jpeg'),
+                    : null,
+                child: _avatarPath == null || _avatarPath!.isEmpty
+                    ? const Icon(Icons.person, size: 40, color: AppColors.textMuted)
+                    : null,
               ),
             ),
             const SizedBox(height: 8),

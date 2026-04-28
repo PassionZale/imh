@@ -1,14 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'services/current_user_service.dart';
 import 'theme/app_theme.dart';
+import 'pages/create_user_page.dart';
 import 'pages/home_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kDebugMode) {
     WakelockPlus.enable();
   }
+  await CurrentUserService.instance.init();
   runApp(const MyApp());
 }
 
@@ -20,7 +23,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'imh',
       theme: AppTheme.lightTheme,
-      home: const HomePage(),
+      home: ListenableBuilder(
+        listenable: CurrentUserService.instance,
+        builder: (context, child) {
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: CurrentUserService.instance.currentUser == null
+                ? const CreateUserPage(key: ValueKey('create'))
+                : const HomePage(key: ValueKey('home')),
+          );
+        },
+      ),
     );
   }
 }
