@@ -173,7 +173,7 @@ class _DataImportPageState extends State<DataImportPage> {
     if (!confirmed) return;
 
     // 执行导入
-    await ImportProgressDialog.showImporting(context: context);
+    ImportProgressDialog.showImporting(context: context);
 
     try {
       await _performFuelImport(result.records);
@@ -207,7 +207,7 @@ class _DataImportPageState extends State<DataImportPage> {
     if (!confirmed) return;
 
     // 执行导入
-    await ImportProgressDialog.showImporting(context: context);
+    ImportProgressDialog.showImporting(context: context);
 
     try {
       await _performCheckInImport(result.records);
