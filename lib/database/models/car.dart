@@ -1,11 +1,27 @@
+/// 车辆信息模型
 class Car {
+  /// 主键 ID
   final int? id;
+
+  /// 车辆品牌（如：比亚迪、特斯拉）
   final String brand;
+
+  /// 车辆型号（如：汉EV、Model 3）
   final String model;
+
+  /// 车牌号
   final String plateNumber;
+
+  /// 车辆颜色
   final String? color;
+
+  /// 生产年份
   final int? year;
+
+  /// 创建时间（毫秒时间戳）
   final int createdAt;
+
+  /// 更新时间（毫秒时间戳）
   final int updatedAt;
 
   Car({

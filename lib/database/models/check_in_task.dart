@@ -1,9 +1,21 @@
+/// 打卡任务模型
 class CheckInTask {
+  /// 主键 ID
   final int? id;
+
+  /// 任务标题
   final String title;
+
+  /// 是否启用（0=禁用，1=启用）
   final bool isEnabled;
+
+  /// 打卡频率（每日打卡次数）
   final int frequency;
+
+  /// 创建时间（毫秒时间戳）
   final int createdAt;
+
+  /// 更新时间（毫秒时间戳）
   final int updatedAt;
 
   CheckInTask({

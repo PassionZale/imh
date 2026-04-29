@@ -93,3 +93,7 @@ When implementing UI components, follow `DESIGN.md` specifications:
 
 - **Android**: Gradle Kotlin DSL, namespace `com.passionzale.imh`
 - **iOS**: Standard Flutter Runner setup, supports all orientations
+
+## Working Rules
+
+- **Do NOT run flutter run**: User will launch the app manually for testing. Do not attempt to start the Flutter app during development sessions.

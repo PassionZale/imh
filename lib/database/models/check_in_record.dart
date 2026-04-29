@@ -1,7 +1,15 @@
+/// 打卡记录模型
 class CheckInRecord {
+  /// 主键 ID
   final int? id;
+
+  /// 关联的任务 ID
   final int taskId;
+
+  /// 打卡日期（格式：YYYY-MM-DD）
   final String date;
+
+  /// 创建时间（毫秒时间戳）
   final int createdAt;
 
   CheckInRecord({

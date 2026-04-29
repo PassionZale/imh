@@ -1,5 +1,9 @@
+/// 用户信息模型
 class User {
+  /// 用户昵称
   final String nickname;
+
+  /// 用户头像 URL
   final String? avatar;
 
   User({

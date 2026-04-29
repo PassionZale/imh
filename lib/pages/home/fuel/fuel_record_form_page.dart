@@ -38,15 +38,17 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
       _selectedDate = DateTime.now();
     }
 
-    _litersController.addListener(_autoCalculateCost);
-    _unitPriceController.addListener(_autoCalculateCost);
+    _totalCostController.addListener(_autoCalculateUnitPrice);
+    _litersController.addListener(_autoCalculateUnitPrice);
   }
 
-  void _autoCalculateCost() {
+  void _autoCalculateUnitPrice() {
+    final totalCost = double.tryParse(_totalCostController.text);
     final liters = double.tryParse(_litersController.text);
-    final unitPrice = double.tryParse(_unitPriceController.text);
-    if (liters != null && unitPrice != null) {
-      _totalCostController.text = (liters * unitPrice).toStringAsFixed(2);
+    if (liters != null && liters > 0 && totalCost != null) {
+      _unitPriceController.text = (totalCost / liters).toStringAsFixed(2);
+    } else {
+      _unitPriceController.text = '';
     }
   }
 
@@ -143,10 +145,25 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                controller: _totalCostController,
+                decoration: const InputDecoration(
+                  labelText: '总费用（元）',
+                  hintText: '如：150',
+                  prefixIcon: Icon(Icons.payments_outlined),
+                ),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                validator: (value) {
+                  if (value == null || value.isEmpty) return '请输入总费用';
+                  if (double.tryParse(value) == null) return '请输入有效数字';
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
                 controller: _litersController,
                 decoration: const InputDecoration(
-                  labelText: '加油量（升）',
-                  hintText: '如：40',
+                  labelText: '加油量（L）',
+                  hintText: '如：20',
                   prefixIcon: Icon(Icons.local_gas_station),
                 ),
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -160,21 +177,12 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
               TextFormField(
                 controller: _unitPriceController,
                 decoration: const InputDecoration(
-                  labelText: '单价（元/升）',
-                  hintText: '如：7.5',
+                  labelText: '单价（元/L）',
+                  hintText: '自动计算',
                   prefixIcon: Icon(Icons.attach_money),
                 ),
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _totalCostController,
-                decoration: const InputDecoration(
-                  labelText: '总费用（元）',
-                  hintText: '自动计算或手动输入',
-                  prefixIcon: Icon(Icons.payments_outlined),
-                ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                readOnly: true,
               ),
               const SizedBox(height: 16),
               TextFormField(
