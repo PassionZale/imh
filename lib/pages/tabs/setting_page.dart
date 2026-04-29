@@ -6,6 +6,7 @@ import '../../services/current_user_service.dart';
 import '../settings/user_edit_page.dart';
 import '../settings/check_in/check_in_task_list_page.dart';
 import '../settings/car/car_list_page.dart';
+import '../settings/data_import/data_import_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -61,6 +62,12 @@ class _SettingPageState extends State<SettingPage> {
   void _navigateToCars() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const CarListPage()),
+    );
+  }
+
+  void _navigateToDataImport() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const DataImportPage()),
     );
   }
 
@@ -121,6 +128,13 @@ class _SettingPageState extends State<SettingPage> {
                           title: const Text('我的车辆'),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: _navigateToCars,
+                        ),
+                        const Divider(height: 1),
+                        ListTile(
+                          leading: const Icon(Icons.file_upload_outlined),
+                          title: const Text('数据导入'),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: _navigateToDataImport,
                         ),
                       ],
                     ),
