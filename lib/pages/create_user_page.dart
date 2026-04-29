@@ -15,7 +15,6 @@ class CreateUserPage extends StatefulWidget {
 
 class _CreateUserPageState extends State<CreateUserPage> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
   final _nicknameController = TextEditingController();
   String? _avatarPath;
   final ImageService _imageService = ImageService();
@@ -23,7 +22,6 @@ class _CreateUserPageState extends State<CreateUserPage> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     _nicknameController.dispose();
     super.dispose();
   }
@@ -45,12 +43,11 @@ class _CreateUserPageState extends State<CreateUserPage> {
     setState(() => _isSubmitting = true);
 
     final user = User(
-      name: _nameController.text,
       nickname: _nicknameController.text,
       avatar: _avatarPath,
     );
 
-    await CurrentUserService.instance.createAndSetUser(user);
+    await CurrentUserService.instance.save(user);
   }
 
   @override
@@ -83,7 +80,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '创建你的个人资料以开始使用',
+                      '设置你的昵称和头像以开始使用',
                       style: TextStyle(fontSize: 16, color: AppColors.textMuted),
                     ),
                     const SizedBox(height: 40),
@@ -130,24 +127,6 @@ class _CreateUserPageState extends State<CreateUserPage> {
                       ),
                     ),
                     const SizedBox(height: 32),
-                    TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: '姓名',
-                        hintText: '请输入姓名',
-                        prefixIcon: const Icon(Icons.person_outline),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return '请输入姓名';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
                     TextFormField(
                       controller: _nicknameController,
                       decoration: InputDecoration(

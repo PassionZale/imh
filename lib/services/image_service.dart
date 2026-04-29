@@ -6,7 +6,7 @@ class ImageService {
   static const String _avatarDir = 'avatars';
   final ImagePicker _picker = ImagePicker();
 
-  Future<String> saveAvatar(XFile pickedImage, {int? userId}) async {
+  Future<String> saveAvatar(XFile pickedImage) async {
     final dir = await getApplicationDocumentsDirectory();
     final avatarDir = Directory('${dir.path}/$_avatarDir');
 
@@ -15,9 +15,7 @@ class ImageService {
     }
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final fileName = userId != null
-        ? '${userId}_$timestamp.jpg'
-        : '$timestamp.jpg';
+    final fileName = '$timestamp.jpg';
     final savedPath = '${avatarDir.path}/$fileName';
 
     await pickedImage.saveTo(savedPath);
@@ -33,12 +31,8 @@ class ImageService {
     }
   }
 
-  Future<String> updateAvatar(
-    XFile newImage,
-    String? oldPath, {
-    int? userId,
-  }) async {
-    return await saveAvatar(newImage, userId: userId);
+  Future<String> updateAvatar(XFile newImage, String? oldPath) async {
+    return await saveAvatar(newImage);
   }
 
   Future<XFile?> pickImageFromGallery() async {

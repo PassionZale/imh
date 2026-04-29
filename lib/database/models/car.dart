@@ -1,6 +1,5 @@
 class Car {
   final int? id;
-  final int userId;
   final String brand;
   final String model;
   final String plateNumber;
@@ -12,7 +11,6 @@ class Car {
 
   Car({
     this.id,
-    required this.userId,
     required this.brand,
     required this.model,
     required this.plateNumber,
@@ -27,7 +25,6 @@ class Car {
   Map<String, Object?> toMap() {
     return {
       'id': id,
-      'user_id': userId,
       'brand': brand,
       'model': model,
       'plate_number': plateNumber,
@@ -42,7 +39,6 @@ class Car {
   factory Car.fromMap(Map<String, Object?> map) {
     return Car(
       id: map['id'] as int?,
-      userId: map['user_id'] as int,
       brand: map['brand'] as String,
       model: map['model'] as String,
       plateNumber: map['plate_number'] as String,
@@ -56,7 +52,6 @@ class Car {
 
   Car copyWith({
     int? id,
-    int? userId,
     String? brand,
     String? model,
     String? plateNumber,
@@ -68,7 +63,6 @@ class Car {
   }) {
     return Car(
       id: id ?? this.id,
-      userId: userId ?? this.userId,
       brand: brand ?? this.brand,
       model: model ?? this.model,
       plateNumber: plateNumber ?? this.plateNumber,

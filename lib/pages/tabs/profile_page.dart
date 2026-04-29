@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
-import '../database/models/user.dart';
-import '../services/current_user_service.dart';
-import '../components/card/card.dart';
-import '../components/cell/cell.dart';
-import '../components/empty/empty.dart';
-import '../components/img_preview/img_preview.dart';
+import '../../theme/app_colors.dart';
+import '../../database/models/user.dart';
+import '../../services/current_user_service.dart';
+import '../../components/card/card.dart';
+import '../../components/cell/cell.dart';
+import '../../components/empty/empty.dart';
+import '../../components/img_preview/img_preview.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -57,7 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   const SizedBox(height: 32),
-                  // Avatar section
                   Hero(
                     tag: _heroTag,
                     child: GestureDetector(
@@ -77,23 +76,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  // User info card
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: CardWidget(
-                      title: '会员信息',
-                      child: Column(
-                        children: [
-                          CellWidget(
-                            label: '昵称',
-                            value: _currentUser!.nickname,
-                          ),
-                          const SizedBox(height: 16),
-                          CellWidget(
-                            label: '姓名',
-                            value: _currentUser!.name,
-                          ),
-                        ],
+                      title: '个人信息',
+                      child: CellWidget(
+                        label: '昵称',
+                        value: _currentUser!.nickname,
                       ),
                     ),
                   ),

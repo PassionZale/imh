@@ -4,7 +4,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import 'services/current_user_service.dart';
 import 'theme/app_theme.dart';
 import 'pages/create_user_page.dart';
-import 'pages/home_page.dart';
+import 'pages/index_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
             duration: const Duration(milliseconds: 300),
             child: CurrentUserService.instance.currentUser == null
                 ? const CreateUserPage(key: ValueKey('create'))
-                : const HomePage(key: ValueKey('home')),
+                : const IndexPage(key: ValueKey('home')),
           );
         },
       ),

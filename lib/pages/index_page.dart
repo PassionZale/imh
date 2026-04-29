@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'users_page.dart';
-import 'profile_page.dart';
+import 'tabs/home_page.dart';
+import 'tabs/profile_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class IndexPage extends StatefulWidget {
+  const IndexPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<IndexPage> createState() => _IndexPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _IndexPageState extends State<IndexPage> {
   int _currentIndex = 0;
 
   static const List<Widget> _pages = [
-    UsersPage(),
+    HomePage(),
     ProfilePage(),
   ];
 

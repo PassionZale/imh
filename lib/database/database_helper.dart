@@ -19,28 +19,15 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 1,
       onCreate: _onCreate,
-      onUpgrade: _onUpgrade,
     );
   }
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        nickname TEXT NOT NULL,
-        avatar TEXT,
-        created_at INTEGER NOT NULL,
-        updated_at INTEGER NOT NULL
-      )
-    ''');
-
-    await db.execute('''
       CREATE TABLE check_in_tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
         title TEXT NOT NULL,
         is_enabled INTEGER NOT NULL DEFAULT 1,
         frequency INTEGER NOT NULL DEFAULT 1,
@@ -61,7 +48,6 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE car (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
         brand TEXT NOT NULL,
         model TEXT NOT NULL,
         plate_number TEXT NOT NULL,
@@ -85,61 +71,6 @@ class DatabaseHelper {
         created_at INTEGER NOT NULL
       )
     ''');
-  }
-
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      await db.execute('''
-        CREATE TABLE check_in_tasks (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          user_id INTEGER NOT NULL,
-          title TEXT NOT NULL,
-          is_enabled INTEGER NOT NULL DEFAULT 1,
-          frequency INTEGER NOT NULL DEFAULT 1,
-          created_at INTEGER NOT NULL,
-          updated_at INTEGER NOT NULL
-        )
-      ''');
-
-      await db.execute('''
-        CREATE TABLE check_in_records (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          task_id INTEGER NOT NULL,
-          date TEXT NOT NULL,
-          created_at INTEGER NOT NULL
-        )
-      ''');
-    }
-
-    if (oldVersion < 3) {
-      await db.execute('''
-        CREATE TABLE car (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          user_id INTEGER NOT NULL,
-          brand TEXT NOT NULL,
-          model TEXT NOT NULL,
-          plate_number TEXT NOT NULL,
-          color TEXT,
-          year INTEGER,
-          mileage INTEGER NOT NULL DEFAULT 0,
-          created_at INTEGER NOT NULL,
-          updated_at INTEGER NOT NULL
-        )
-      ''');
-
-      await db.execute('''
-        CREATE TABLE car_fuel_record (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          car_id INTEGER NOT NULL,
-          liters REAL NOT NULL,
-          unit_price REAL NOT NULL,
-          total_cost REAL NOT NULL,
-          mileage INTEGER NOT NULL,
-          date TEXT NOT NULL,
-          created_at INTEGER NOT NULL
-        )
-      ''');
-    }
   }
 
   Future<void> close() async {

@@ -5,7 +5,6 @@ class CarRepository {
   Future<Car> create(Car car) async {
     final db = await DatabaseHelper.instance.db;
     final id = await db.insert('car', {
-      'user_id': car.userId,
       'brand': car.brand,
       'model': car.model,
       'plate_number': car.plateNumber,
@@ -18,26 +17,21 @@ class CarRepository {
     return car.copyWith(id: id);
   }
 
-  Future<Car?> getById(int id, int userId) async {
+  Future<Car?> getById(int id) async {
     final db = await DatabaseHelper.instance.db;
     final maps = await db.query(
       'car',
-      where: 'id = ? AND user_id = ?',
-      whereArgs: [id, userId],
+      where: 'id = ?',
+      whereArgs: [id],
       limit: 1,
     );
     if (maps.isEmpty) return null;
     return Car.fromMap(maps.first);
   }
 
-  Future<List<Car>> getByUser(int userId) async {
+  Future<List<Car>> getAll() async {
     final db = await DatabaseHelper.instance.db;
-    final maps = await db.query(
-      'car',
-      where: 'user_id = ?',
-      whereArgs: [userId],
-      orderBy: 'id DESC',
-    );
+    final maps = await db.query('car', orderBy: 'id DESC');
     return maps.map((map) => Car.fromMap(map)).toList();
   }
 
