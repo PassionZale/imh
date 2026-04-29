@@ -5,7 +5,6 @@ class Car {
   final String plateNumber;
   final String? color;
   final int? year;
-  final int mileage;
   final int createdAt;
   final int updatedAt;
 
@@ -16,7 +15,6 @@ class Car {
     required this.plateNumber,
     this.color,
     this.year,
-    this.mileage = 0,
     int? createdAt,
     int? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now().millisecondsSinceEpoch,
@@ -30,7 +28,6 @@ class Car {
       'plate_number': plateNumber,
       'color': color,
       'year': year,
-      'mileage': mileage,
       'created_at': createdAt,
       'updated_at': updatedAt,
     };
@@ -44,7 +41,6 @@ class Car {
       plateNumber: map['plate_number'] as String,
       color: map['color'] as String?,
       year: map['year'] as int?,
-      mileage: map['mileage'] as int,
       createdAt: map['created_at'] as int,
       updatedAt: map['updated_at'] as int,
     );
@@ -57,7 +53,6 @@ class Car {
     String? plateNumber,
     String? color,
     int? year,
-    int? mileage,
     int? createdAt,
     int? updatedAt,
   }) {
@@ -68,7 +63,6 @@ class Car {
       plateNumber: plateNumber ?? this.plateNumber,
       color: color ?? this.color,
       year: year ?? this.year,
-      mileage: mileage ?? this.mileage,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

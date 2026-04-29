@@ -19,7 +19,6 @@ class _CarFormPageState extends State<CarFormPage> {
   final _plateNumberController = TextEditingController();
   final _colorController = TextEditingController();
   final _yearController = TextEditingController();
-  final _mileageController = TextEditingController();
   bool _isSubmitting = false;
   final _repository = CarRepository();
 
@@ -35,7 +34,6 @@ class _CarFormPageState extends State<CarFormPage> {
       _colorController.text = widget.car!.color ?? '';
       _yearController.text =
           widget.car!.year?.toString() ?? '';
-      _mileageController.text = widget.car!.mileage.toString();
     }
   }
 
@@ -46,7 +44,6 @@ class _CarFormPageState extends State<CarFormPage> {
     _plateNumberController.dispose();
     _colorController.dispose();
     _yearController.dispose();
-    _mileageController.dispose();
     super.dispose();
   }
 
@@ -63,7 +60,6 @@ class _CarFormPageState extends State<CarFormPage> {
         plateNumber: _plateNumberController.text,
         color: _colorController.text.isEmpty ? null : _colorController.text,
         year: int.tryParse(_yearController.text),
-        mileage: int.tryParse(_mileageController.text) ?? 0,
       );
       await _repository.update(updated);
     } else {
@@ -73,7 +69,6 @@ class _CarFormPageState extends State<CarFormPage> {
         plateNumber: _plateNumberController.text,
         color: _colorController.text.isEmpty ? null : _colorController.text,
         year: int.tryParse(_yearController.text),
-        mileage: int.tryParse(_mileageController.text) ?? 0,
       );
       await _repository.create(car);
     }
@@ -155,16 +150,6 @@ class _CarFormPageState extends State<CarFormPage> {
                   labelText: '年份（选填）',
                   hintText: '如：2024',
                   prefixIcon: Icon(Icons.calendar_today),
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _mileageController,
-                decoration: const InputDecoration(
-                  labelText: '里程（km）',
-                  hintText: '如：10000',
-                  prefixIcon: Icon(Icons.speed),
                 ),
                 keyboardType: TextInputType.number,
               ),

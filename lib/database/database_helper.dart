@@ -19,8 +19,9 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -53,7 +54,6 @@ class DatabaseHelper {
         plate_number TEXT NOT NULL,
         color TEXT,
         year INTEGER,
-        mileage INTEGER NOT NULL DEFAULT 0,
         created_at INTEGER NOT NULL,
         updated_at INTEGER NOT NULL
       )
@@ -71,6 +71,12 @@ class DatabaseHelper {
         created_at INTEGER NOT NULL
       )
     ''');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE car DROP COLUMN mileage');
+    }
   }
 
   Future<void> close() async {

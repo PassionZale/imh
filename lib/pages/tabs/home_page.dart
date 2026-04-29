@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../../database/models/check_in_task.dart';
 import '../../database/models/check_in_record.dart';
 import '../../database/models/car.dart';
+import '../../database/models/car_fuel_stats.dart';
 import '../../repositories/check_in_task_repository.dart';
 import '../../repositories/check_in_record_repository.dart';
 import '../../repositories/car_repository.dart';
+import '../../repositories/car_fuel_record_repository.dart';
 import '../../components/empty/empty.dart';
 import 'home/check_in_card.dart';
 import 'home/car_card.dart';
@@ -20,11 +22,13 @@ class _HomePageState extends State<HomePage> {
   final _taskRepo = CheckInTaskRepository();
   final _recordRepo = CheckInRecordRepository();
   final _carRepo = CarRepository();
+  final _fuelRepo = CarFuelRecordRepository();
 
   List<CheckInTask> _tasks = [];
   List<CheckInRecord> _todayRecords = [];
   Map<int, int> _totalDaysMap = {};
   List<Car> _cars = [];
+  Map<int, CarFuelStats> _fuelStatsMap = {};
   bool _loading = true;
 
   String get _today {
@@ -51,7 +55,7 @@ class _HomePageState extends State<HomePage> {
     final todayRecords = results[1] as List<CheckInRecord>;
     final cars = results[2] as List<Car>;
 
-    // Calculate total days per task in parallel
+    // Calculate total days and fuel stats in parallel
     final totalDaysFutures = tasks
         .where((t) => t.id != null)
         .map((task) async {
@@ -59,8 +63,18 @@ class _HomePageState extends State<HomePage> {
       return MapEntry(task.id!, records.map((r) => r.date).toSet().length);
     }).toList();
 
+    final fuelStatsFutures = cars
+        .where((c) => c.id != null)
+        .map((car) async {
+      final records = await _fuelRepo.getByCar(car.id!);
+      return MapEntry(car.id!, CarFuelStats.calculate(records));
+    }).toList();
+
     final totalDaysEntries = await Future.wait(totalDaysFutures);
+    final fuelStatsEntries = await Future.wait(fuelStatsFutures);
+
     final totalDaysMap = Map<int, int>.fromEntries(totalDaysEntries);
+    final fuelStatsMap = Map<int, CarFuelStats>.fromEntries(fuelStatsEntries);
 
     if (mounted) {
       setState(() {
@@ -68,6 +82,7 @@ class _HomePageState extends State<HomePage> {
         _todayRecords = todayRecords;
         _totalDaysMap = totalDaysMap;
         _cars = cars;
+        _fuelStatsMap = fuelStatsMap;
         _loading = false;
       });
     }
@@ -149,7 +164,11 @@ class _HomePageState extends State<HomePage> {
     return _cars.map((car) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 16),
-        child: CarCard(car: car),
+        child: CarCard(
+          car: car,
+          stats: _fuelStatsMap[car.id!] ?? const CarFuelStats(),
+          onDataChanged: _loadData,
+        ),
       );
     }).toList();
   }

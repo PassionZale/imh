@@ -10,7 +10,6 @@ class CarRepository {
       'plate_number': car.plateNumber,
       'color': car.color,
       'year': car.year,
-      'mileage': car.mileage,
       'created_at': car.createdAt,
       'updated_at': car.updatedAt,
     });
@@ -49,7 +48,6 @@ class CarRepository {
         'plate_number': car.plateNumber,
         'color': car.color,
         'year': car.year,
-        'mileage': car.mileage,
         'updated_at': now,
       },
       where: 'id = ?',
