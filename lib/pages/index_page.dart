@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'tabs/home_page.dart';
-import 'tabs/profile_page.dart';
+import 'tabs/setting_page.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -14,7 +14,7 @@ class _IndexPageState extends State<IndexPage> {
 
   static const List<Widget> _pages = [
     HomePage(),
-    ProfilePage(),
+    SettingPage(),
   ];
 
   @override
@@ -34,9 +34,9 @@ class _IndexPageState extends State<IndexPage> {
             label: '首页',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline_rounded),
-            activeIcon: Icon(Icons.person_rounded),
-            label: '我的',
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings_rounded),
+            label: '设置',
           ),
         ],
       ),
