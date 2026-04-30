@@ -87,7 +87,8 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
 
     final liters = double.parse(_litersController.text);
     final unitPrice = double.tryParse(_unitPriceController.text) ?? 0;
-    final totalCost = double.tryParse(_totalCostController.text) ?? liters * unitPrice;
+    final totalCost =
+        double.tryParse(_totalCostController.text) ?? liters * unitPrice;
     final mileage = int.parse(_mileageController.text);
 
     if (_isEditing) {
@@ -119,9 +120,7 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_isEditing ? '编辑油耗' : '记油耗'),
-      ),
+      appBar: AppBar(title: Text(_isEditing ? '编辑油耗' : '记油耗')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -137,10 +136,7 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                     labelText: '日期',
                     prefixIcon: Icon(Icons.calendar_today),
                   ),
-                  child: Text(
-                    _dateStr,
-                    style: const TextStyle(fontSize: 16),
-                  ),
+                  child: Text(_dateStr, style: const TextStyle(fontSize: 16)),
                 ),
               ),
               const SizedBox(height: 16),
@@ -151,7 +147,9 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   hintText: '如：150',
                   prefixIcon: Icon(Icons.payments_outlined),
                 ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return '请输入总费用';
                   if (double.tryParse(value) == null) return '请输入有效数字';
@@ -166,7 +164,9 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   hintText: '如：20',
                   prefixIcon: Icon(Icons.local_gas_station),
                 ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return '请输入加油量';
                   if (double.tryParse(value) == null) return '请输入有效数字';
@@ -181,7 +181,9 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   hintText: '自动计算',
                   prefixIcon: Icon(Icons.attach_money),
                 ),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 readOnly: true,
               ),
               const SizedBox(height: 16),

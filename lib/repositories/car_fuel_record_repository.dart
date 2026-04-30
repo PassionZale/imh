@@ -13,25 +13,26 @@ class NotLatestRecordException implements Exception {
 class CarFuelRecordRepository {
   /// 计算增量字段（mileageDelta, consumption, costPerKm）
   /// 查询该车辆上一条记录（按 date 排序），并计算增量
-  Future<Map<String, dynamic>> _calculateDeltaFields(int carId, int mileage, double liters, double totalCost) async {
+  Future<Map<String, dynamic>> _calculateDeltaFields(
+    int carId,
+    int mileage,
+    double liters,
+    double totalCost,
+  ) async {
     final db = await DatabaseHelper.instance.db;
 
-    // 查询该车辆上一条记录（按 date DESC 排序，取第一条）
+    // 查询该车辆上一条记录（按 date DESC, created_at DESC 排序，取第一条）
     final maps = await db.query(
       'car_fuel_record',
       where: 'car_id = ?',
       whereArgs: [carId],
-      orderBy: 'date DESC',
+      orderBy: 'date DESC, created_at DESC',
       limit: 1,
     );
 
     if (maps.isEmpty) {
       // 首次记录，增量字段为 null
-      return {
-        'mileage_delta': null,
-        'consumption': null,
-        'cost_per_km': null,
-      };
+      return {'mileage_delta': null, 'consumption': null, 'cost_per_km': null};
     }
 
     final previous = CarFuelRecord.fromMap(maps.first);
@@ -39,11 +40,7 @@ class CarFuelRecordRepository {
 
     if (mileageDelta <= 0) {
       // 里程未增加，增量字段为 null
-      return {
-        'mileage_delta': null,
-        'consumption': null,
-        'cost_per_km': null,
-      };
+      return {'mileage_delta': null, 'consumption': null, 'cost_per_km': null};
     }
 
     return {
@@ -52,6 +49,7 @@ class CarFuelRecordRepository {
       'cost_per_km': totalCost / mileageDelta,
     };
   }
+
   Future<CarFuelRecord> create(CarFuelRecord record) async {
     final db = await DatabaseHelper.instance.db;
 
@@ -90,7 +88,7 @@ class CarFuelRecordRepository {
       'car_fuel_record',
       where: 'car_id = ?',
       whereArgs: [carId],
-      orderBy: 'date DESC',
+      orderBy: 'date DESC, created_at DESC',
     );
     return maps.map((map) => CarFuelRecord.fromMap(map)).toList();
   }
@@ -127,7 +125,7 @@ class CarFuelRecordRepository {
       'car_fuel_record',
       where: 'car_id = ?',
       whereArgs: [record.carId],
-      orderBy: 'date DESC',
+      orderBy: 'date DESC, created_at DESC',
       limit: 1,
     );
 
@@ -181,7 +179,7 @@ class CarFuelRecordRepository {
       'car_fuel_record',
       where: 'car_id = ?',
       whereArgs: [carId],
-      orderBy: 'date DESC',
+      orderBy: 'date DESC, created_at DESC',
       limit: 1,
     );
 
@@ -189,19 +187,11 @@ class CarFuelRecordRepository {
       throw NotLatestRecordException('只能删除最新记录');
     }
 
-    await db.delete(
-      'car_fuel_record',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    await db.delete('car_fuel_record', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> deleteByCar(int carId) async {
     final db = await DatabaseHelper.instance.db;
-    await db.delete(
-      'car_fuel_record',
-      where: 'car_id = ?',
-      whereArgs: [carId],
-    );
+    await db.delete('car_fuel_record', where: 'car_id = ?', whereArgs: [carId]);
   }
 }
