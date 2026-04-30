@@ -109,7 +109,7 @@ class _UserEditPageState extends State<UserEditPage> {
                           alignment: Alignment.bottomRight,
                           child: CircleAvatar(
                             radius: 16,
-                            backgroundColor: AppColors.secondary,
+                            backgroundColor: AppColors.primary,
                             child: const Icon(
                               Icons.camera_alt,
                               size: 16,

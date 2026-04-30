@@ -116,7 +116,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                                 alignment: Alignment.bottomRight,
                                 child: CircleAvatar(
                                   radius: 16,
-                                  backgroundColor: AppColors.secondary,
+                                  backgroundColor: AppColors.primary,
                                   child: const Icon(
                                     Icons.camera_alt,
                                     size: 16,

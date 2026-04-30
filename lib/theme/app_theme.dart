@@ -28,7 +28,7 @@ class AppTheme {
         BoxShadow(
           offset: const Offset(0, 0),
           blurRadius: 4,
-          color: AppColors.secondary.withValues(alpha: 0.35),
+          color: AppColors.primary.withValues(alpha: 0.35),
         ),
       ];
 
@@ -50,7 +50,7 @@ class AppTheme {
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
       ),
 
       // Card Theme
@@ -81,7 +81,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusMd),
-          borderSide: const BorderSide(color: AppColors.secondary, width: 2),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusMd),
@@ -109,7 +109,7 @@ class AppTheme {
       // Text Button Theme
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.secondary,
+          foregroundColor: AppColors.primary,
         ),
       ),
 
@@ -122,7 +122,7 @@ class AppTheme {
       // Icon Button Theme
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
-          foregroundColor: AppColors.secondary,
+          foregroundColor: AppColors.primary,
         ),
       ),
 

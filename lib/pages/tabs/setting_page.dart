@@ -117,6 +117,7 @@ class _SettingPageState extends State<SettingPage> {
                     child: Column(
                       children: [
                         ListTile(
+                          contentPadding: EdgeInsets.zero,
                           leading: const Icon(Icons.checklist_rtl_outlined),
                           title: const Text('打卡任务'),
                           trailing: const Icon(Icons.chevron_right),
@@ -124,6 +125,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         const Divider(height: 1),
                         ListTile(
+                          contentPadding: EdgeInsets.zero,
                           leading: const Icon(Icons.directions_car_outlined),
                           title: const Text('我的车辆'),
                           trailing: const Icon(Icons.chevron_right),
@@ -131,6 +133,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         const Divider(height: 1),
                         ListTile(
+                          contentPadding: EdgeInsets.zero,
                           leading: const Icon(Icons.file_upload_outlined),
                           title: const Text('数据导入'),
                           trailing: const Icon(Icons.chevron_right),
