@@ -22,9 +22,9 @@ class CarCard extends StatelessWidget {
     return [
       (value: stats.formatValue(stats.latestConsumption), unit: 'L/100km', title: '最新油耗'),
       (value: stats.formatValue(stats.averageConsumption), unit: 'L/100km', title: '平均油耗'),
-      (value: stats.dailyMileage != null ? stats.dailyMileage!.toStringAsFixed(0) : '-', unit: 'km', title: '日均里程'),
-      (value: stats.totalLiters > 0 ? stats.totalLiters.toStringAsFixed(1) : '-', unit: 'L', title: '累计加油'),
-      (value: stats.totalCost > 0 ? stats.totalCost.toStringAsFixed(0) : '-', unit: '元', title: '累计油费'),
+      (value: stats.dailyMileage != null ? stats.dailyMileage!.toStringAsFixed(1) : '-', unit: 'km', title: '日均里程'),
+      (value: stats.totalLiters > 0 ? stats.totalLiters.toStringAsFixed(0) : '-', unit: 'L', title: '累计加油'),
+      (value: stats.totalCost > 0 ? stats.totalCost.ceil().toString() : '-', unit: '元', title: '累计油费'),
       (value: stats.totalMileage > 0 ? '${stats.totalMileage}' : '-', unit: 'km', title: '总里程'),
     ];
   }
