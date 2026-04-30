@@ -2,7 +2,7 @@
     <!-- Required for wakelock_plus: keeps screen on during debug mode to prevent wireless ADB disconnection -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
-        android:label="imh"
+        android:label="IMH"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

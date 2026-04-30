@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'imh',
+      title: 'IMH',
       theme: AppTheme.lightTheme,
       home: ListenableBuilder(
         listenable: CurrentUserService.instance,
