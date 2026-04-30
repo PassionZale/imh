@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../../../database/models/car_fuel_record.dart';
 import '../../../../database/models/check_in_record.dart';
@@ -9,8 +8,6 @@ import '../../../../repositories/check_in_task_repository.dart';
 import '../../../../database/models/car.dart';
 import '../../../../database/models/check_in_task.dart';
 import 'widgets/import_type_selector.dart';
-import 'widgets/import_method_tabs.dart';
-import 'widgets/file_picker_area.dart';
 import 'widgets/json_paste_area.dart';
 import 'widgets/copy_template_button.dart';
 import 'widgets/import_preview_dialog.dart';
@@ -40,11 +37,7 @@ class _DataImportPageState extends State<DataImportPage> {
   Car? _selectedCar;
   CheckInTask? _selectedTask;
 
-  // 导入方式
-  ImportMethod _importMethod = ImportMethod.file;
-
   // 文件和内容
-  String? _selectedFilePath;
   String _pastedJson = '';
 
   // 加载状态
@@ -74,20 +67,7 @@ class _DataImportPageState extends State<DataImportPage> {
   Future<void> _handleImportTypeChanged(ImportType type) async {
     setState(() {
       _importType = type;
-      _selectedFilePath = null;
       _pastedJson = '';
-    });
-  }
-
-  void _handleImportMethodChanged(ImportMethod method) {
-    setState(() {
-      _importMethod = method;
-    });
-  }
-
-  void _handleFileSelected(String? path) {
-    setState(() {
-      _selectedFilePath = path;
     });
   }
 
@@ -98,29 +78,13 @@ class _DataImportPageState extends State<DataImportPage> {
   }
 
   Future<String?> _getJsonContent() async {
-    // 优先使用文件内容
-    if (_selectedFilePath != null) {
-      try {
-        final file = File(_selectedFilePath!);
-        return await file.readAsString();
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('读取文件失败: $e')),
-          );
-        }
-        return null;
-      }
-    }
-
-    // 使用粘贴内容
     if (_pastedJson.trim().isNotEmpty) {
       return _pastedJson.trim();
     }
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('请选择文件或粘贴 JSON 内容')),
+        const SnackBar(content: Text('请粘贴 JSON 内容')),
       );
     }
     return null;
@@ -173,6 +137,7 @@ class _DataImportPageState extends State<DataImportPage> {
     if (!confirmed) return;
 
     // 执行导入
+    if (!mounted) return;
     ImportProgressDialog.showImporting(context: context);
 
     try {
@@ -207,6 +172,7 @@ class _DataImportPageState extends State<DataImportPage> {
     if (!confirmed) return;
 
     // 执行导入
+    if (!mounted) return;
     ImportProgressDialog.showImporting(context: context);
 
     try {
@@ -296,24 +262,11 @@ class _DataImportPageState extends State<DataImportPage> {
               _buildTaskSelector(),
             const SizedBox(height: 24),
 
-            // 导入方式 Tabs
-            ImportMethodTabs(
-              initialMethod: _importMethod,
-              onChanged: _handleImportMethodChanged,
+            // JSON 粘贴区域
+            JsonPasteArea(
+              content: _pastedJson,
+              onChanged: _handlePasteChanged,
             ),
-            const SizedBox(height: 16),
-
-            // 文件/粘贴内容区域
-            if (_importMethod == ImportMethod.file)
-              FilePickerArea(
-                selectedFileName: _selectedFilePath,
-                onFileSelected: _handleFileSelected,
-              )
-            else
-              JsonPasteArea(
-                content: _pastedJson,
-                onChanged: _handlePasteChanged,
-              ),
             const SizedBox(height: 16),
 
             // 复制模板按钮
@@ -374,7 +327,7 @@ class _DataImportPageState extends State<DataImportPage> {
     }
 
     return DropdownButtonFormField<Car>(
-      value: _selectedCar,
+      initialValue: _selectedCar,
       decoration: const InputDecoration(
         labelText: '选择车辆',
         border: OutlineInputBorder(),
@@ -404,7 +357,7 @@ class _DataImportPageState extends State<DataImportPage> {
     }
 
     return DropdownButtonFormField<CheckInTask>(
-      value: _selectedTask,
+      initialValue: _selectedTask,
       decoration: const InputDecoration(
         labelText: '选择打卡任务',
         border: OutlineInputBorder(),
