@@ -146,7 +146,7 @@ class CarCard extends StatelessWidget {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.secondary,
+              backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(

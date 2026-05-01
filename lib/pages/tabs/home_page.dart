@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('首页'),
+        title: const Text('IMH'),
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())

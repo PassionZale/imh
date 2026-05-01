@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 import '../../../database/models/check_in_task.dart';
+import '../../home/check_in/check_in_record_list_page.dart';
 
 class CheckInCard extends StatefulWidget {
   final CheckInTask task;
@@ -64,98 +65,107 @@ class _CheckInCardState extends State<CheckInCard>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: AppTheme.cardDecoration,
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Title + Button row
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.task.title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textMain,
-                  ),
-                ),
-              ),
-              ScaleTransition(
-                scale: _scaleAnimation,
-                child: ElevatedButton(
-                  onPressed: _canCheckIn ? _onTap : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        _canCheckIn ? AppColors.primary : AppColors.surfaceRaised,
-                    foregroundColor:
-                        _canCheckIn ? Colors.white : AppColors.textMuted,
-                    disabledBackgroundColor: AppColors.surfaceRaised,
-                    disabledForegroundColor: AppColors.textMuted,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    minimumSize: const Size(0, 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                      side: BorderSide(
-                        color: _canCheckIn
-                            ? AppColors.primary
-                            : AppColors.borderDefault,
-                      ),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    _buttonText,
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => CheckInRecordListPage(task: widget.task),
           ),
-          const SizedBox(height: 16),
-          // Days counter with animation
-          TweenAnimationBuilder<int>(
-            tween: IntTween(begin: 0, end: widget.totalDays),
-            duration: const Duration(milliseconds: 600),
-            curve: Curves.easeOutCubic,
-            builder: (context, value, child) {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text(
-                    '$value',
+        );
+      },
+      child: Container(
+        decoration: AppTheme.cardDecoration,
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Title + Button row
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.task.title,
                     style: const TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.textMain,
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  const Text(
-                    '天',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.textMuted,
+                ),
+                ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: ElevatedButton(
+                    onPressed: _canCheckIn ? _onTap : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          _canCheckIn ? AppColors.primary : AppColors.surfaceRaised,
+                      foregroundColor:
+                          _canCheckIn ? Colors.white : AppColors.textMuted,
+                      disabledBackgroundColor: AppColors.surfaceRaised,
+                      disabledForegroundColor: AppColors.textMuted,
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      minimumSize: const Size(0, 40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                        side: BorderSide(
+                          color: _canCheckIn
+                              ? AppColors.primary
+                              : AppColors.borderDefault,
+                        ),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      _buttonText,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  const Text(
-                    '已坚持',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textMuted,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            // Days counter with animation + arrow hint
+            TweenAnimationBuilder<int>(
+              tween: IntTween(begin: 0, end: widget.totalDays),
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeOutCubic,
+              builder: (context, value, child) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Text(
+                      '$value',
+                      style: const TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textMain,
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
+                    const SizedBox(width: 4),
+                    const Text(
+                      '天',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Text(
+                      '已坚持',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
