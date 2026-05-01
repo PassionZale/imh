@@ -1,3 +1,4 @@
+import 'dart:math' show max;
 import 'package:flutter/material.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
@@ -233,7 +234,7 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
 
   Widget _buildCalendarList() {
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.fromLTRB(16, 0, 16, max(16, MediaQuery.of(context).viewPadding.bottom)),
       itemCount: _months.length,
       separatorBuilder: (_, _) => const SizedBox(height: 20),
       itemBuilder: (context, index) {
