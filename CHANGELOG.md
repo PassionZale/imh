@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+### Bug Fixes
+- 修复 release 构建网络不可用的问题
+
 ## 1.1.0
 
 ### Features
