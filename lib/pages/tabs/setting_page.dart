@@ -7,6 +7,7 @@ import '../settings/user_edit_page.dart';
 import '../settings/check_in/check_in_task_list_page.dart';
 import '../settings/car/car_list_page.dart';
 import '../settings/data_import/data_import_page.dart';
+import '../settings/env_settings_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
@@ -68,6 +69,12 @@ class _SettingPageState extends State<SettingPage> {
   void _navigateToDataImport() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const DataImportPage()),
+    );
+  }
+
+  void _navigateToEnvSettings() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const EnvSettingsPage()),
     );
   }
 
@@ -138,6 +145,14 @@ class _SettingPageState extends State<SettingPage> {
                           title: const Text('数据导入'),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: _navigateToDataImport,
+                        ),
+                        const Divider(height: 1),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(Icons.tune),
+                          title: const Text('环境变量'),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: _navigateToEnvSettings,
                         ),
                       ],
                     ),
