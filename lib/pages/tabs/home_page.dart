@@ -60,7 +60,12 @@ class _HomePageState extends State<HomePage> {
         .where((t) => t.id != null)
         .map((task) async {
       final records = await _recordRepo.getByTask(task.id!);
-      return MapEntry(task.id!, records.map((r) => r.date).toSet().length);
+      final dateCountMap = <String, int>{};
+      for (final r in records) {
+        dateCountMap[r.date] = (dateCountMap[r.date] ?? 0) + 1;
+      }
+      return MapEntry(
+          task.id!, dateCountMap.values.where((c) => c >= task.frequency).length);
     }).toList();
 
     final fuelStatsFutures = cars

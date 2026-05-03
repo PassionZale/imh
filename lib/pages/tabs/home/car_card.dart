@@ -52,9 +52,9 @@ class CarCard extends StatelessWidget {
             crossAxisCount: 3,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 12,
+            mainAxisSpacing: 8,
             crossAxisSpacing: 12,
-            childAspectRatio: 1.8,
+            childAspectRatio: 1.6,
             children: _gridItems.map((item) {
               return _buildGridCell(item.value, item.unit, item.title);
             }).toList(),

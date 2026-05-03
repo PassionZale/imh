@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'services/current_user_service.dart';
+import 'services/llm_service.dart';
 import 'theme/app_theme.dart';
 import 'pages/create_user_page.dart';
 import 'pages/index_page.dart';
@@ -12,6 +13,7 @@ void main() async {
     WakelockPlus.enable();
   }
   await CurrentUserService.instance.init();
+  await LlmService.instance.init();
   runApp(const MyApp());
 }
 

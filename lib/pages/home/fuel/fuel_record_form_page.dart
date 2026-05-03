@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../../../database/models/car_fuel_record.dart';
 import '../../../repositories/car_fuel_record_repository.dart';
+import '../../../services/llm_service.dart';
 import '../../../theme/app_theme.dart';
 
 class FuelRecordFormPage extends StatefulWidget {
@@ -21,7 +26,9 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
   final _mileageController = TextEditingController();
   late DateTime _selectedDate;
   bool _isSubmitting = false;
+  bool _isRecognizing = false;
   final _repository = CarFuelRecordRepository();
+  final _picker = ImagePicker();
 
   bool get _isEditing => widget.record != null;
 
@@ -79,6 +86,80 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
         '${_selectedDate.day.toString().padLeft(2, '0')}';
   }
 
+  void _showImageSourceSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('拍照'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('从相册选择'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
+    final image = await _picker.pickImage(
+      source: source,
+      maxWidth: 1024,
+      imageQuality: 70,
+    );
+    if (image == null) return;
+
+    setState(() => _isRecognizing = true);
+
+    try {
+      final result = await LlmService.instance
+          .extractFuelData(File(image.path));
+
+      if (!mounted) return;
+
+      setState(() {
+        if (result.totalCost != null) {
+          _totalCostController.text = result.totalCost.toString();
+        }
+        if (result.liters != null) {
+          _litersController.text = result.liters.toString();
+        }
+        if (result.date != null) {
+          final parsed = DateTime.tryParse(result.date!);
+          if (parsed != null) {
+            _selectedDate = parsed;
+          }
+        }
+      });
+    } catch (e, stackTrace) {
+      debugPrint('识别失败: $e');
+      debugPrint(stackTrace.toString());
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('识别失败: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isRecognizing = false);
+      }
+    }
+  }
+
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     if (_isSubmitting) return;
@@ -119,6 +200,8 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final showOcrButton = LlmService.instance.isConfigured;
+
     return Scaffold(
       appBar: AppBar(title: Text(_isEditing ? '编辑油耗' : '记油耗')),
       body: SingleChildScrollView(
@@ -139,6 +222,30 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   child: Text(_dateStr, style: const TextStyle(fontSize: 16)),
                 ),
               ),
+              if (showOcrButton) ...[
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _isRecognizing ? null : _showImageSourceSheet,
+                    icon: _isRecognizing
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.camera_alt_outlined),
+                    label: Text(_isRecognizing ? '识别中...' : '拍照识别'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(AppTheme.radiusMd),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: 16),
               TextFormField(
                 controller: _totalCostController,
