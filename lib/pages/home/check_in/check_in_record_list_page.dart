@@ -132,16 +132,24 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
           ),
           const SizedBox(width: 8),
           Text(
-            '$_totalDays天',
+            '$_totalDays',
             style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
+              fontSize: 36,
+              fontWeight: FontWeight.w700,
               color: AppColors.textMain,
             ),
           ),
-          const SizedBox(width: 2),
+          const SizedBox(width: 4),
           const Text(
-            '总坚持',
+            '天',
+            style: TextStyle(
+              fontSize: 16,
+              color: AppColors.textMuted,
+            ),
+          ),
+          const SizedBox(width: 4),
+          const Text(
+            '已坚持',
             style: TextStyle(
               fontSize: 14,
               color: AppColors.textMuted,
