@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 import '../../../database/models/check_in_task.dart';
 import '../../home/check_in/check_in_record_list_page.dart';
@@ -65,6 +64,8 @@ class _CheckInCardState extends State<CheckInCard>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -74,7 +75,7 @@ class _CheckInCardState extends State<CheckInCard>
         );
       },
       child: Container(
-        decoration: AppTheme.cardDecoration,
+        decoration: AppTheme.cardDecoration(context),
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,10 +86,10 @@ class _CheckInCardState extends State<CheckInCard>
                 Expanded(
                   child: Text(
                     widget.task.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textMain,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -98,11 +99,11 @@ class _CheckInCardState extends State<CheckInCard>
                     onPressed: _canCheckIn ? _onTap : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
-                          _canCheckIn ? AppColors.primary : AppColors.surfaceRaised,
+                          _canCheckIn ? colorScheme.primary : colorScheme.surfaceContainerHighest,
                       foregroundColor:
-                          _canCheckIn ? Colors.white : AppColors.textMuted,
-                      disabledBackgroundColor: AppColors.surfaceRaised,
-                      disabledForegroundColor: AppColors.textMuted,
+                          _canCheckIn ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
+                      disabledBackgroundColor: colorScheme.surfaceContainerHighest,
+                      disabledForegroundColor: colorScheme.onSurfaceVariant,
                       padding:
                           const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       minimumSize: const Size(0, 40),
@@ -110,8 +111,8 @@ class _CheckInCardState extends State<CheckInCard>
                         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         side: BorderSide(
                           color: _canCheckIn
-                              ? AppColors.primary
-                              : AppColors.borderDefault,
+                              ? colorScheme.primary
+                              : colorScheme.outline,
                         ),
                       ),
                       elevation: 0,
@@ -138,26 +139,26 @@ class _CheckInCardState extends State<CheckInCard>
                   children: [
                     Text(
                       '$value',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textMain,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Text(
+                    Text(
                       '天',
                       style: TextStyle(
                         fontSize: 16,
-                        color: AppColors.textMuted,
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Text(
+                    Text(
                       '已坚持',
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.textMuted,
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],

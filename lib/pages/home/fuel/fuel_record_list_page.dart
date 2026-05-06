@@ -49,6 +49,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
   }
 
   Future<bool?> _deleteLatestRecord(CarFuelRecord record) async {
+    final colorScheme = Theme.of(context).colorScheme;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -61,7 +62,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            style: TextButton.styleFrom(foregroundColor: colorScheme.error),
             child: const Text('删除'),
           ),
         ],
@@ -110,7 +111,6 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(title: const Text('历史油耗')),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
@@ -124,6 +124,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
   }
 
   Widget _buildGroupedList() {
+    final colorScheme = Theme.of(context).colorScheme;
     final grouped = _groupRecordsByMonth();
     final sortedMonths = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
 
@@ -143,10 +144,10 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
               child: Text(
                 _formatMonthTitle(month),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: colorScheme.onSurface,
                 ),
               ),
             ),
@@ -180,6 +181,8 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
     required bool isLatest,
     required bool isLastInMonth,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     final card = isLatest
         ? Dismissible(
             key: ValueKey(record.id),
@@ -188,8 +191,8 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
             background: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 24),
-              color: Colors.red,
-              child: const Icon(Icons.delete_outline, color: Colors.white),
+              color: colorScheme.error,
+              child: Icon(Icons.delete_outline, color: colorScheme.onError),
             ),
             child: FuelRecordCard(
               record: record,
@@ -213,10 +216,10 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
                   padding: const EdgeInsets.only(top: 26),
                   child: Text(
                     '$day日',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: colorScheme.onSurface,
                       height: 1.5,
                     ),
                   ),
@@ -227,7 +230,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
                     margin: const EdgeInsets.symmetric(horizontal: 34, vertical: 30),
                     color: isLastInMonth
                         ? Colors.transparent
-                        : Colors.grey.shade300,
+                        : colorScheme.outline,
                     width: 1,
                   ),
                 ),

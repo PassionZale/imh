@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
 
 /// Empty state widget for displaying when no data is available
 ///
@@ -22,17 +21,19 @@ class EmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 64, color: AppColors.textMuted),
+          Icon(icon, size: 64, color: colorScheme.onSurfaceVariant),
           const SizedBox(height: 16),
           Text(
             message,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: AppColors.textMuted,
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ],

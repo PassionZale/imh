@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../database/models/user.dart';
 import '../services/current_user_service.dart';
 import '../services/image_service.dart';
-import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 
 class CreateUserPage extends StatefulWidget {
@@ -52,6 +51,8 @@ class _CreateUserPageState extends State<CreateUserPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -67,7 +68,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                     Icon(
                       Icons.waving_hand_rounded,
                       size: 64,
-                      color: AppColors.primary,
+                      color: colorScheme.primary,
                     ),
                     const SizedBox(height: 24),
                     Text(
@@ -75,20 +76,20 @@ class _CreateUserPageState extends State<CreateUserPage> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.textMain,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       '设置你的昵称和头像以开始使用',
-                      style: TextStyle(fontSize: 16, color: AppColors.textMuted),
+                      style: TextStyle(fontSize: 16, color: colorScheme.onSurfaceVariant),
                     ),
                     const SizedBox(height: 40),
                     GestureDetector(
                       onTap: _pickAvatar,
                       child: CircleAvatar(
                         radius: 48,
-                        backgroundColor: AppColors.surfaceRaised,
+                        backgroundColor: colorScheme.surfaceContainerHighest,
                         backgroundImage: _avatarPath != null &&
                                 _avatarPath!.isNotEmpty
                             ? FileImage(File(_avatarPath!))
@@ -97,17 +98,17 @@ class _CreateUserPageState extends State<CreateUserPage> {
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.add_a_photo_outlined,
                                     size: 28,
-                                    color: AppColors.textMuted,
+                                    color: colorScheme.onSurfaceVariant,
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     '添加头像',
                                     style: TextStyle(
                                       fontSize: 10,
-                                      color: AppColors.textMuted,
+                                      color: colorScheme.onSurfaceVariant,
                                     ),
                                   ),
                                 ],
@@ -116,11 +117,11 @@ class _CreateUserPageState extends State<CreateUserPage> {
                                 alignment: Alignment.bottomRight,
                                 child: CircleAvatar(
                                   radius: 16,
-                                  backgroundColor: AppColors.primary,
-                                  child: const Icon(
+                                  backgroundColor: colorScheme.primary,
+                                  child: Icon(
                                     Icons.camera_alt,
                                     size: 16,
-                                    color: Colors.white,
+                                    color: colorScheme.onPrimary,
                                   ),
                                 ),
                               ),
@@ -148,20 +149,20 @@ class _CreateUserPageState extends State<CreateUserPage> {
                     ElevatedButton(
                       onPressed: _isSubmitting ? null : _submit,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
+                        backgroundColor: colorScheme.primary,
+                        foregroundColor: colorScheme.onPrimary,
                         minimumSize: const Size.fromHeight(52),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                         ),
                       ),
                       child: _isSubmitting
-                          ? const SizedBox(
+                          ? SizedBox(
                               width: 24,
                               height: 24,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.white,
+                                color: colorScheme.onPrimary,
                               ),
                             )
                           : const Text(

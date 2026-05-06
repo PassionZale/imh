@@ -52,6 +52,8 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(title: const Text('环境变量')),
       body: SingleChildScrollView(
@@ -106,12 +108,12 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
                     ),
                   ),
                   child: _isSaving
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: colorScheme.onPrimary,
                           ),
                         )
                       : const Text('保存', style: TextStyle(fontSize: 18)),

@@ -70,6 +70,8 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_isEditing ? '编辑打卡任务' : '新建打卡任务'),
@@ -112,7 +114,7 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(AppTheme.radiusMd),
-                  side: const BorderSide(color: Color(0xFFE5E7EB)),
+                  side: BorderSide(color: colorScheme.outline),
                 ),
               ),
               const SizedBox(height: 32),
@@ -128,12 +130,12 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
                     ),
                   ),
                   child: _isSubmitting
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: colorScheme.onPrimary,
                           ),
                         )
                       : Text(

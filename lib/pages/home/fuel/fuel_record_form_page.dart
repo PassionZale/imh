@@ -320,12 +320,12 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                     ),
                   ),
                   child: _isSubmitting
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         )
                       : Text(

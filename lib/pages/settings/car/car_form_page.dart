@@ -80,6 +80,8 @@ class _CarFormPageState extends State<CarFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_isEditing ? '编辑车辆' : '新增车辆'),
@@ -166,12 +168,12 @@ class _CarFormPageState extends State<CarFormPage> {
                     ),
                   ),
                   child: _isSubmitting
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: colorScheme.onPrimary,
                           ),
                         )
                       : Text(

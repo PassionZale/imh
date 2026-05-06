@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
 
 /// CellWidget component for displaying label-value pairs in a card
 ///
@@ -22,6 +21,8 @@ class CellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
@@ -29,17 +30,17 @@ class CellWidget extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
-                color: AppColors.textMuted,
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
             ),
           ),
         ],

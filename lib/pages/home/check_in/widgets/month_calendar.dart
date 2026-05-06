@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../theme/app_colors.dart';
 
 class MonthCalendar extends StatelessWidget {
   final int year;
@@ -17,6 +16,8 @@ class MonthCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,21 +25,21 @@ class MonthCalendar extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 12),
           child: Text(
             '$year年$month月',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
             ),
           ),
         ),
-        _buildWeekHeader(),
+        _buildWeekHeader(colorScheme),
         const SizedBox(height: 8),
-        ..._buildWeekRows(),
+        ..._buildWeekRows(colorScheme),
       ],
     );
   }
 
-  Widget _buildWeekHeader() {
+  Widget _buildWeekHeader(ColorScheme colorScheme) {
     const labels = ['日', '一', '二', '三', '四', '五', '六'];
     return Row(
       children: labels.map((label) {
@@ -46,9 +47,9 @@ class MonthCalendar extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: AppColors.textMuted,
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ),
@@ -57,7 +58,7 @@ class MonthCalendar extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildWeekRows() {
+  List<Widget> _buildWeekRows(ColorScheme colorScheme) {
     final firstDay = DateTime(year, month, 1);
     final daysInMonth = DateTime(year, month + 1, 0).day;
     final startWeekday = firstDay.weekday % 7; // Sunday = 0
@@ -78,6 +79,7 @@ class MonthCalendar extends StatelessWidget {
         child: _DayCell(
           day: day,
           isCompleted: isCompleted,
+          colorScheme: colorScheme,
         ),
       ));
 
@@ -110,10 +112,12 @@ class MonthCalendar extends StatelessWidget {
 class _DayCell extends StatelessWidget {
   final int day;
   final bool isCompleted;
+  final ColorScheme colorScheme;
 
   const _DayCell({
     required this.day,
     required this.isCompleted,
+    required this.colorScheme,
   });
 
   @override
@@ -124,7 +128,7 @@ class _DayCell extends StatelessWidget {
         height: 32,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: isCompleted ? AppColors.primary : Colors.transparent,
+          color: isCompleted ? colorScheme.primary : Colors.transparent,
         ),
         alignment: Alignment.center,
         child: Text(
@@ -132,7 +136,7 @@ class _DayCell extends StatelessWidget {
           style: TextStyle(
             fontSize: 14,
             fontWeight: isCompleted ? FontWeight.w600 : FontWeight.normal,
-            color: isCompleted ? Colors.white : AppColors.textMain,
+            color: isCompleted ? colorScheme.onPrimary : colorScheme.onSurface,
           ),
         ),
       ),

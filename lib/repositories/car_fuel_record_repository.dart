@@ -194,4 +194,44 @@ class CarFuelRecordRepository {
     final db = await DatabaseHelper.instance.db;
     await db.delete('car_fuel_record', where: 'car_id = ?', whereArgs: [carId]);
   }
+
+  /// 查询近 [months] 个月每条加油记录（date + consumption），供折线图使用
+  Future<List<CarFuelRecord>> getRecentRecords(int carId, int months) async {
+    final db = await DatabaseHelper.instance.db;
+    final cutoff = DateTime.now().subtract(Duration(days: months * 31));
+    final cutoffStr =
+        '${cutoff.year}-${cutoff.month.toString().padLeft(2, '0')}-${cutoff.day.toString().padLeft(2, '0')}';
+    final maps = await db.query(
+      'car_fuel_record',
+      where: 'car_id = ? AND date >= ? AND consumption IS NOT NULL',
+      whereArgs: [carId, cutoffStr],
+      orderBy: 'date ASC, created_at ASC',
+    );
+    return maps.map((map) => CarFuelRecord.fromMap(map)).toList();
+  }
+
+  /// 查询近 [months] 个月每月油费汇总，供柱状图使用
+  Future<List<({String month, double totalCost})>> getMonthlyCost(
+    int carId,
+    int months,
+  ) async {
+    final db = await DatabaseHelper.instance.db;
+    final cutoff = DateTime.now().subtract(Duration(days: months * 31));
+    final cutoffStr =
+        '${cutoff.year}-${cutoff.month.toString().padLeft(2, '0')}-${cutoff.day.toString().padLeft(2, '0')}';
+    final results = await db.rawQuery(
+      "SELECT strftime('%Y-%m', date) as month, SUM(total_cost) as total_cost "
+      'FROM car_fuel_record '
+      'WHERE car_id = ? AND date >= ? '
+      "GROUP BY strftime('%Y-%m', date) "
+      'ORDER BY month ASC',
+      [carId, cutoffStr],
+    );
+    return results
+        .map((row) => (
+              month: row['month'] as String,
+              totalCost: (row['total_cost'] as num).toDouble(),
+            ))
+        .toList();
+  }
 }

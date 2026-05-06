@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 import '../../../database/models/car.dart';
 import '../../../database/models/car_fuel_stats.dart';
+import '../../../repositories/car_fuel_record_repository.dart';
+import 'fuel_chart.dart';
 import '../../home/fuel/fuel_record_list_page.dart';
 import '../../home/fuel/fuel_record_form_page.dart';
 
@@ -31,22 +32,24 @@ class CarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      decoration: AppTheme.cardDecoration,
+      decoration: AppTheme.cardDecoration(context),
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '${car.brand} ${car.model}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 16),
-          const Divider(height: 1, color: AppColors.borderDefault),
+          Divider(height: 1, color: colorScheme.outline),
           const SizedBox(height: 16),
           GridView.count(
             crossAxisCount: 3,
@@ -56,11 +59,21 @@ class CarCard extends StatelessWidget {
             crossAxisSpacing: 12,
             childAspectRatio: 1.6,
             children: _gridItems.map((item) {
-              return _buildGridCell(item.value, item.unit, item.title);
+              return _buildGridCell(context, item.value, item.unit, item.title);
             }).toList(),
           ),
+          if (car.id != null) ...[
+            const SizedBox(height: 16),
+            Divider(height: 1, color: colorScheme.outline),
+            const SizedBox(height: 16),
+            FuelChart(
+              carId: car.id!,
+              getRecentRecords: CarFuelRecordRepository().getRecentRecords,
+              getMonthlyCost: CarFuelRecordRepository().getMonthlyCost,
+            ),
+          ],
           const SizedBox(height: 16),
-          const Divider(height: 1, color: AppColors.borderDefault),
+          Divider(height: 1, color: colorScheme.outline),
           const SizedBox(height: 16),
           _buildActionButtons(context),
         ],
@@ -68,7 +81,9 @@ class CarCard extends StatelessWidget {
     );
   }
 
-  Widget _buildGridCell(String value, String unit, String title) {
+  Widget _buildGridCell(BuildContext context, String value, String unit, String title) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -79,19 +94,19 @@ class CarCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(width: 2),
             Flexible(
               child: Text(
                 unit,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
-                  color: AppColors.textMuted,
+                  color: colorScheme.onSurfaceVariant,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -101,9 +116,9 @@ class CarCard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
-            color: AppColors.textMuted,
+            color: colorScheme.onSurfaceVariant,
           ),
         ),
       ],
@@ -111,6 +126,8 @@ class CarCard extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       children: [
         Expanded(
@@ -146,8 +163,8 @@ class CarCard extends StatelessWidget {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppTheme.radiusMd),

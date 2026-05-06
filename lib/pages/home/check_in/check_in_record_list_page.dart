@@ -1,6 +1,5 @@
 import 'dart:math' show max;
 import 'package:flutter/material.dart';
-import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 import '../../../database/models/check_in_task.dart';
 import '../../../repositories/check_in_record_repository.dart';
@@ -77,6 +76,8 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('打卡记录'),
@@ -87,12 +88,12 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
             top: false,
             child: Column(
               children: [
-                _buildTaskInfo(),
+                _buildTaskInfo(colorScheme),
                 const SizedBox(height: 16),
-                _buildStatsCard(),
+                _buildStatsCard(colorScheme),
                 const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -100,7 +101,7 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textMain,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                   ),
@@ -115,7 +116,7 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
     );
   }
 
-  Widget _buildTaskInfo() {
+  Widget _buildTaskInfo(ColorScheme colorScheme) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Row(
@@ -124,35 +125,35 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
         children: [
           Text(
             widget.task.title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w600,
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(width: 8),
           Text(
             '$_totalDays',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.w700,
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
             ),
           ),
           const SizedBox(width: 4),
-          const Text(
+          Text(
             '天',
             style: TextStyle(
               fontSize: 16,
-              color: AppColors.textMuted,
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
           const SizedBox(width: 4),
-          const Text(
+          Text(
             '已坚持',
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.textMuted,
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ],
@@ -160,12 +161,12 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
     );
   }
 
-  Widget _buildStatsCard() {
+  Widget _buildStatsCard(ColorScheme colorScheme) {
     final now = DateTime.now();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
-        decoration: AppTheme.cardDecoration,
+        decoration: AppTheme.cardDecoration(context),
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -173,10 +174,10 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
               alignment: Alignment.centerLeft,
               child: Text(
                 '${now.month}月打卡情况',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textMain,
+                  color: colorScheme.onSurface,
                 ),
               ),
             ),
@@ -184,15 +185,15 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
             Row(
               children: [
                 Expanded(
-                  child: _buildStatItem('$_monthlyDays', '天', '本月坚持'),
+                  child: _buildStatItem(colorScheme, '$_monthlyDays', '天', '本月坚持'),
                 ),
                 Container(
                   width: 1,
                   height: 40,
-                  color: AppColors.borderDefault,
+                  color: colorScheme.outline,
                 ),
                 Expanded(
-                  child: _buildStatItem('$_streakDays', '天', '连续坚持'),
+                  child: _buildStatItem(colorScheme, '$_streakDays', '天', '连续坚持'),
                 ),
               ],
             ),
@@ -202,7 +203,7 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
     );
   }
 
-  Widget _buildStatItem(String value, String unit, String label) {
+  Widget _buildStatItem(ColorScheme colorScheme, String value, String unit, String label) {
     return Column(
       children: [
         Row(
@@ -212,18 +213,18 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
           children: [
             Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(width: 2),
             Text(
               unit,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
-                color: AppColors.textMuted,
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ],
@@ -231,9 +232,9 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
         const SizedBox(height: 4),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
-            color: AppColors.textMuted,
+            color: colorScheme.onSurfaceVariant,
           ),
         ),
       ],
