@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0]
+
+### Features
+- 添加 Dark Mode 支持
+  - 新增 ThemeService，支持跟随系统/浅色/深色三种模式
+  - 主题偏好持久化到 SharedPreferences
+  - 设置页新增主题设置入口（底部选择器）
+
+### Changed
+- 所有页面/组件颜色迁移至 Flutter ColorScheme 语义角色
+- AppBar 改为 surface 色背景，适配 Light/Dark 双主题
+- 卡片阴影 dark 模式使用主题色辉光替代灰色偏移
+- Dark Mode 下图表（fl_chart）颜色动态适配
+
 ## [1.1.3]
 
 ### Changed
