@@ -4,7 +4,7 @@ import '../../../theme/app_colors.dart';
 import '../../../database/models/car_fuel_record.dart';
 
 /// 图表数据范围配置（月数）
-const int maxChartMonths = 12;
+const int maxChartMonths = 8;
 
 enum FuelChartTab { consumption, cost }
 
@@ -28,7 +28,6 @@ class FuelChart extends StatefulWidget {
 
 class _FuelChartState extends State<FuelChart> {
   FuelChartTab _currentTab = FuelChartTab.consumption;
-  bool _costLoaded = false;
 
   // 油耗数据
   List<CarFuelRecord>? _consumptionData;
@@ -63,7 +62,6 @@ class _FuelChartState extends State<FuelChart> {
     if (mounted) {
       setState(() {
         _costData = data;
-        _costLoaded = true;
       });
     }
   }
@@ -71,7 +69,9 @@ class _FuelChartState extends State<FuelChart> {
   void _onTabChanged(FuelChartTab tab) {
     if (tab == _currentTab) return;
     setState(() => _currentTab = tab);
-    if (tab == FuelChartTab.cost && !_costLoaded) {
+    if (tab == FuelChartTab.consumption) {
+      _loadConsumption();
+    } else {
       _loadCost();
     }
   }
