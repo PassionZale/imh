@@ -45,6 +45,9 @@ dependencies:
   # Image picker
   image_picker: ^1.0.4
 
+  # Charts
+  fl_chart: ^0.70.2
+
   # File picker
 
 dev_dependencies:

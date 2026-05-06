@@ -3,6 +3,8 @@ import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 import '../../../database/models/car.dart';
 import '../../../database/models/car_fuel_stats.dart';
+import '../../../repositories/car_fuel_record_repository.dart';
+import 'fuel_chart.dart';
 import '../../home/fuel/fuel_record_list_page.dart';
 import '../../home/fuel/fuel_record_form_page.dart';
 
@@ -59,6 +61,16 @@ class CarCard extends StatelessWidget {
               return _buildGridCell(item.value, item.unit, item.title);
             }).toList(),
           ),
+          if (car.id != null) ...[
+            const SizedBox(height: 16),
+            const Divider(height: 1, color: AppColors.borderDefault),
+            const SizedBox(height: 16),
+            FuelChart(
+              carId: car.id!,
+              getRecentRecords: CarFuelRecordRepository().getRecentRecords,
+              getMonthlyCost: CarFuelRecordRepository().getMonthlyCost,
+            ),
+          ],
           const SizedBox(height: 16),
           const Divider(height: 1, color: AppColors.borderDefault),
           const SizedBox(height: 16),
