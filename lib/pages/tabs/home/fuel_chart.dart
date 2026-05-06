@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../../../theme/app_colors.dart';
 import '../../../database/models/car_fuel_record.dart';
 
 /// 图表数据范围配置（月数）
@@ -98,16 +97,17 @@ class _FuelChartState extends State<FuelChart> {
   }
 
   Widget _buildTab(String label, FuelChartTab tab) {
+    final colorScheme = Theme.of(context).colorScheme;
     final selected = _currentTab == tab;
     return GestureDetector(
       onTap: () => _onTabChanged(tab),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary : Colors.transparent,
+          color: selected ? colorScheme.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: selected ? AppColors.primary : AppColors.borderDefault,
+            color: selected ? colorScheme.primary : colorScheme.outline,
           ),
         ),
         child: Text(
@@ -115,7 +115,7 @@ class _FuelChartState extends State<FuelChart> {
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: selected ? Colors.white : AppColors.textMuted,
+            color: selected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
           ),
         ),
       ),
@@ -148,6 +148,7 @@ class _FuelChartState extends State<FuelChart> {
   }
 
   Widget _buildConsumptionChart(List<CarFuelRecord> records) {
+    final colorScheme = Theme.of(context).colorScheme;
     final spots = <FlSpot>[];
     final labels = <int, String>{};
     // tooltip 用的完整日期
@@ -183,7 +184,7 @@ class _FuelChartState extends State<FuelChart> {
             drawVerticalLine: false,
             horizontalInterval: (maxY - minY) > 5 ? ((maxY - minY) / 4) : 1,
             getDrawingHorizontalLine: (value) => FlLine(
-              color: AppColors.borderDefault.withValues(alpha: 0.5),
+              color: colorScheme.outline.withValues(alpha: 0.5),
               strokeWidth: 1,
             ),
           ),
@@ -200,9 +201,9 @@ class _FuelChartState extends State<FuelChart> {
                 reservedSize: 36,
                 getTitlesWidget: (value, meta) => Text(
                   value.toStringAsFixed(value == value.roundToDouble() ? 0 : 1),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
-                    color: AppColors.textMuted,
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),
@@ -219,9 +220,9 @@ class _FuelChartState extends State<FuelChart> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       label,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 10,
-                        color: AppColors.textMuted,
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                   );
@@ -234,33 +235,33 @@ class _FuelChartState extends State<FuelChart> {
             LineChartBarData(
               spots: spots,
               isCurved: true,
-              color: AppColors.primary,
+              color: colorScheme.primary,
               barWidth: 2,
               dotData: FlDotData(
                 show: true,
                 getDotPainter: (spot, percent, barData, index) =>
                     FlDotCirclePainter(
                   radius: 3,
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                   strokeWidth: 1.5,
-                  strokeColor: Colors.white,
+                  strokeColor: colorScheme.onPrimary,
                 ),
               ),
               belowBarData: BarAreaData(
                 show: true,
-                color: AppColors.primary.withValues(alpha: 0.08),
+                color: colorScheme.primary.withValues(alpha: 0.08),
               ),
             ),
           ],
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
-              getTooltipColor: (_) => AppColors.textMain,
+              getTooltipColor: (_) => colorScheme.onSurface,
               getTooltipItems: (spots) => spots.map((spot) {
                 final label = tooltipLabels[spot.x.toInt()] ?? '';
                 return LineTooltipItem(
                   '$label\n油耗 ${spot.y.toStringAsFixed(2)}',
-                  const TextStyle(
-                    color: Colors.white,
+                  TextStyle(
+                    color: colorScheme.surface,
                     fontSize: 12,
                     height: 1.5,
                   ),
@@ -274,6 +275,7 @@ class _FuelChartState extends State<FuelChart> {
   }
 
   Widget _buildCostChart(List<({String month, double totalCost})> data) {
+    final colorScheme = Theme.of(context).colorScheme;
     final barGroups = <BarChartGroupData>[];
     for (int i = 0; i < data.length; i++) {
       barGroups.add(
@@ -283,8 +285,8 @@ class _FuelChartState extends State<FuelChart> {
             BarChartRodData(
               toY: data[i].totalCost,
               color: i == _touchedBarIndex
-                  ? AppColors.primary
-                  : AppColors.primary.withValues(alpha: 0.3),
+                  ? colorScheme.primary
+                  : colorScheme.primary.withValues(alpha: 0.3),
               width: data.length > 8 ? 16 : 24,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(4),
@@ -313,7 +315,7 @@ class _FuelChartState extends State<FuelChart> {
             drawVerticalLine: false,
             horizontalInterval: maxY > 4 ? maxY / 4 : 1,
             getDrawingHorizontalLine: (value) => FlLine(
-              color: AppColors.borderDefault.withValues(alpha: 0.5),
+              color: colorScheme.outline.withValues(alpha: 0.5),
               strokeWidth: 1,
             ),
           ),
@@ -330,9 +332,9 @@ class _FuelChartState extends State<FuelChart> {
                 reservedSize: 40,
                 getTitlesWidget: (value, meta) => Text(
                   value >= 1000 ? '${(value / 1000).toStringAsFixed(1)}k' : value.round().toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
-                    color: AppColors.textMuted,
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),
@@ -350,9 +352,9 @@ class _FuelChartState extends State<FuelChart> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '$month月',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 10,
-                        color: AppColors.textMuted,
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                   );
@@ -374,14 +376,14 @@ class _FuelChartState extends State<FuelChart> {
               }
             },
             touchTooltipData: BarTouchTooltipData(
-              getTooltipColor: (_) => AppColors.textMain,
+              getTooltipColor: (_) => colorScheme.onSurface,
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 final parts = data[groupIndex].month.split('-');
                 final month = int.parse(parts[1]);
                 return BarTooltipItem(
                   '$month月\n油费 ${rod.toY.toStringAsFixed(2)}',
-                  const TextStyle(
-                    color: Colors.white,
+                  TextStyle(
+                    color: colorScheme.surface,
                     fontSize: 12,
                     height: 1.5,
                   ),

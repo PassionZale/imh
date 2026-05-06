@@ -44,6 +44,8 @@ class _CarListPageState extends State<CarListPage> {
   }
 
   Future<bool?> _deleteCar(Car car) async {
+    final colorScheme = Theme.of(context).colorScheme;
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -57,7 +59,7 @@ class _CarListPageState extends State<CarListPage> {
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(
-              foregroundColor: Colors.red,
+              foregroundColor: colorScheme.error,
             ),
             child: const Text('删除'),
           ),
@@ -74,6 +76,8 @@ class _CarListPageState extends State<CarListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('我的车辆'),
@@ -96,10 +100,10 @@ class _CarListPageState extends State<CarListPage> {
                       background: Container(
                         alignment: Alignment.centerRight,
                         padding: const EdgeInsets.only(right: 24),
-                        color: Colors.red,
-                        child: const Icon(
+                        color: colorScheme.error,
+                        child: Icon(
                           Icons.delete_outline,
-                          color: Colors.white,
+                          color: colorScheme.onError,
                         ),
                       ),
                       child: ListTile(

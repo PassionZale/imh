@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../database/models/user.dart';
 import '../../services/current_user_service.dart';
 import '../../services/image_service.dart';
-import '../../theme/app_colors.dart';
 import '../../theme/app_theme.dart';
 
 class UserEditPage extends StatefulWidget {
@@ -66,6 +65,8 @@ class _UserEditPageState extends State<UserEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('编辑个人信息'),
@@ -81,7 +82,7 @@ class _UserEditPageState extends State<UserEditPage> {
                 onTap: _pickAvatar,
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundColor: AppColors.surfaceRaised,
+                  backgroundColor: colorScheme.surfaceContainerHighest,
                   backgroundImage: _avatarPath != null &&
                           _avatarPath!.isNotEmpty
                       ? FileImage(File(_avatarPath!))
@@ -90,17 +91,17 @@ class _UserEditPageState extends State<UserEditPage> {
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.add_a_photo_outlined,
                               size: 28,
-                              color: AppColors.textMuted,
+                              color: colorScheme.onSurfaceVariant,
                             ),
                             const SizedBox(height: 4),
                             Text(
                               '更换头像',
                               style: TextStyle(
                                 fontSize: 10,
-                                color: AppColors.textMuted,
+                                color: colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
@@ -109,11 +110,11 @@ class _UserEditPageState extends State<UserEditPage> {
                           alignment: Alignment.bottomRight,
                           child: CircleAvatar(
                             radius: 16,
-                            backgroundColor: AppColors.primary,
-                            child: const Icon(
+                            backgroundColor: colorScheme.primary,
+                            child: Icon(
                               Icons.camera_alt,
                               size: 16,
-                              color: Colors.white,
+                              color: colorScheme.onPrimary,
                             ),
                           ),
                         ),
@@ -147,12 +148,12 @@ class _UserEditPageState extends State<UserEditPage> {
                     ),
                   ),
                   child: _isSubmitting
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 24,
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: colorScheme.onPrimary,
                           ),
                         )
                       : const Text(

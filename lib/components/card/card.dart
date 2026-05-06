@@ -26,6 +26,8 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     final cardContent = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,16 +36,16 @@ class CardWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
             child: Text(
               title!,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF1F2937),
+                color: colorScheme.onSurface,
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Divider(height: 1, color: Color(0xFFE5E7EB)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Divider(height: 1, color: colorScheme.outline),
           ),
         ],
         Padding(
@@ -59,7 +61,7 @@ class CardWidget extends StatelessWidget {
     );
 
     return Container(
-      decoration: AppTheme.cardDecoration,
+      decoration: AppTheme.cardDecoration(context),
       child: onTap != null
           ? InkWell(
               onTap: onTap,
