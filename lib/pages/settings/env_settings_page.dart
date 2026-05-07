@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../services/llm_service.dart';
-import '../../theme/app_theme.dart';
+import 'package:imh/services/llm_service.dart';
+import 'package:imh/theme/app_theme.dart';
 
 class EnvSettingsPage extends StatefulWidget {
   const EnvSettingsPage({super.key});
@@ -53,11 +53,12 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(title: const Text('环境变量')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(AppTheme.spacing.lg),
         child: Form(
           key: _formKey,
           child: Column(
@@ -72,7 +73,7 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? '请输入 Base URL' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _modelIdController,
                 decoration: const InputDecoration(
@@ -83,7 +84,7 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? '请输入 Model ID' : null,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _apiKeyController,
                 decoration: const InputDecoration(
@@ -95,7 +96,7 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
                 validator: (v) =>
                     v == null || v.trim().isEmpty ? '请输入 API Key' : null,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: AppTheme.spacing.xl),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -104,7 +105,7 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
                     minimumSize: const Size.fromHeight(52),
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(AppTheme.radiusMd),
+                          BorderRadius.circular(AppTheme.radius.md),
                     ),
                   ),
                   child: _isSaving
@@ -116,7 +117,9 @@ class _EnvSettingsPageState extends State<EnvSettingsPage> {
                             color: colorScheme.onPrimary,
                           ),
                         )
-                      : const Text('保存', style: TextStyle(fontSize: 18)),
+                      : Text('保存', style: textTheme.titleLarge?.copyWith(
+                          color: colorScheme.onPrimary,
+                        )),
                 ),
               ),
             ],

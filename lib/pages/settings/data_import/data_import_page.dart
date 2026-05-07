@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../../database/models/car_fuel_record.dart';
-import '../../../../database/models/check_in_record.dart';
-import '../../../../repositories/car_fuel_record_repository.dart';
-import '../../../../repositories/check_in_record_repository.dart';
-import '../../../../repositories/car_repository.dart';
-import '../../../../repositories/check_in_task_repository.dart';
-import '../../../../database/models/car.dart';
-import '../../../../database/models/check_in_task.dart';
-import 'widgets/import_type_selector.dart';
-import 'widgets/json_paste_area.dart';
-import 'widgets/copy_template_button.dart';
-import 'widgets/import_preview_dialog.dart';
-import 'widgets/import_progress_dialog.dart';
-import 'parsers/fuel_import_parser.dart';
-import 'parsers/checkin_import_parser.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
+import 'package:imh/database/models/check_in_record.dart';
+import 'package:imh/repositories/car_fuel_record_repository.dart';
+import 'package:imh/repositories/check_in_record_repository.dart';
+import 'package:imh/repositories/car_repository.dart';
+import 'package:imh/repositories/check_in_task_repository.dart';
+import 'package:imh/database/models/car.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/pages/settings/data_import/widgets/import_type_selector.dart';
+import 'package:imh/pages/settings/data_import/widgets/json_paste_area.dart';
+import 'package:imh/pages/settings/data_import/widgets/copy_template_button.dart';
+import 'package:imh/pages/settings/data_import/widgets/import_preview_dialog.dart';
+import 'package:imh/pages/settings/data_import/widgets/import_progress_dialog.dart';
+import 'package:imh/pages/settings/data_import/parsers/fuel_import_parser.dart';
+import 'package:imh/pages/settings/data_import/parsers/checkin_import_parser.dart';
 
 class DataImportPage extends StatefulWidget {
   const DataImportPage({super.key});
@@ -206,6 +207,7 @@ class _DataImportPageState extends State<DataImportPage> {
   }
 
   void _showValidationErrors(List<String> errors) {
+    final textTheme = Theme.of(context).textTheme;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -214,8 +216,8 @@ class _DataImportPageState extends State<DataImportPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: errors.map((e) => Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: Text('• $e', style: const TextStyle(fontSize: 12)),
+            padding: EdgeInsets.only(bottom: AppTheme.spacing.xs),
+            child: Text('• $e', style: textTheme.labelSmall),
           )).toList(),
         ),
         actions: [
@@ -230,6 +232,8 @@ class _DataImportPageState extends State<DataImportPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (_isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -244,7 +248,7 @@ class _DataImportPageState extends State<DataImportPage> {
         title: const Text('数据导入'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -253,21 +257,21 @@ class _DataImportPageState extends State<DataImportPage> {
               selectedType: _importType,
               onChanged: _handleImportTypeChanged,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: AppTheme.spacing.md),
 
             // 车辆/任务选择
             if (_importType == ImportType.fuel)
               _buildCarSelector()
             else
               _buildTaskSelector(),
-            const SizedBox(height: 24),
+            SizedBox(height: AppTheme.spacing.lg),
 
             // JSON 粘贴区域
             JsonPasteArea(
               content: _pastedJson,
               onChanged: _handlePasteChanged,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: AppTheme.spacing.md),
 
             // 复制模板按钮
             Row(
@@ -275,32 +279,34 @@ class _DataImportPageState extends State<DataImportPage> {
                 CopyTemplateButton(importType: _importType),
               ],
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: AppTheme.spacing.lg),
 
             // 警告信息
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(AppTheme.spacing.sm),
               decoration: BoxDecoration(
-                color: Colors.orange.shade50,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.orange.shade200),
+                color: colorScheme.tertiaryContainer,
+                borderRadius: BorderRadius.circular(AppTheme.radius.sm),
+                border: Border.all(color: colorScheme.tertiary),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.warning_amber_rounded, color: Colors.orange.shade700),
-                  const SizedBox(width: 8),
+                  Icon(Icons.warning_amber_rounded, color: colorScheme.tertiary),
+                  SizedBox(width: AppTheme.spacing.sm),
                   Expanded(
                     child: Text(
                       _importType == ImportType.fuel
                           ? '警告: 导入将覆盖该车辆的所有加油数据!'
                           : '警告: 导入将覆盖该任务的所有打卡数据!',
-                      style: TextStyle(color: Colors.orange.shade700),
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: colorScheme.onTertiaryContainer,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: AppTheme.spacing.lg),
 
             // 开始导入按钮
             SizedBox(
@@ -318,10 +324,10 @@ class _DataImportPageState extends State<DataImportPage> {
 
   Widget _buildCarSelector() {
     if (_cars.isEmpty) {
-      return const Card(
+      return Card(
         child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('暂无车辆，请先添加车辆'),
+          padding: EdgeInsets.all(AppTheme.spacing.md),
+          child: const Text('暂无车辆，请先添加车辆'),
         ),
       );
     }
@@ -348,10 +354,10 @@ class _DataImportPageState extends State<DataImportPage> {
 
   Widget _buildTaskSelector() {
     if (_tasks.isEmpty) {
-      return const Card(
+      return Card(
         child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('暂无打卡任务，请先添加打卡任务'),
+          padding: EdgeInsets.all(AppTheme.spacing.md),
+          child: const Text('暂无打卡任务，请先添加打卡任务'),
         ),
       );
     }

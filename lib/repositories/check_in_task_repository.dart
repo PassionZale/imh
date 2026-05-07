@@ -1,5 +1,5 @@
-import '../database/models/check_in_task.dart';
-import '../database/database_helper.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/database/database_helper.dart';
 
 class CheckInTaskRepository {
   Future<CheckInTask> create(CheckInTask task) async {

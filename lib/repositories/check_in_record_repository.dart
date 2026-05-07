@@ -1,5 +1,5 @@
-import '../database/models/check_in_record.dart';
-import '../database/database_helper.dart';
+import 'package:imh/database/models/check_in_record.dart';
+import 'package:imh/database/database_helper.dart';
 
 class CheckInRecordRepository {
   Future<CheckInRecord> create(CheckInRecord record) async {

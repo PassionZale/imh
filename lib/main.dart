@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import 'services/current_user_service.dart';
-import 'services/llm_service.dart';
-import 'services/theme_service.dart';
-import 'theme/app_theme.dart';
-import 'pages/create_user_page.dart';
-import 'pages/index_page.dart';
+import 'package:imh/services/current_user_service.dart';
+import 'package:imh/services/llm_service.dart';
+import 'package:imh/services/theme_service.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/pages/create_user_page.dart';
+import 'package:imh/pages/index_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

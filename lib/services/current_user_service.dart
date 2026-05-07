@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../database/models/user.dart';
+import 'package:imh/database/models/user.dart';
 
 class CurrentUserService extends ChangeNotifier {
   CurrentUserService._internal();

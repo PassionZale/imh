@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'import_type_selector.dart';
+import 'package:imh/pages/settings/data_import/widgets/import_type_selector.dart';
 
 /// 复制模板按钮
 class CopyTemplateButton extends StatelessWidget {
