@@ -66,18 +66,19 @@ class _UserEditPageState extends State<UserEditPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('编辑个人信息'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(AppTheme.spacing.lg),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               GestureDetector(
                 onTap: _pickAvatar,
                 child: CircleAvatar(
@@ -96,11 +97,10 @@ class _UserEditPageState extends State<UserEditPage> {
                               size: 28,
                               color: colorScheme.onSurfaceVariant,
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: AppTheme.spacing.xs),
                             Text(
                               '更换头像',
-                              style: TextStyle(
-                                fontSize: 10,
+                              style: textTheme.labelSmall?.copyWith(
                                 color: colorScheme.onSurfaceVariant,
                               ),
                             ),
@@ -120,7 +120,7 @@ class _UserEditPageState extends State<UserEditPage> {
                         ),
                 ),
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: AppTheme.spacing.xl),
               TextFormField(
                 controller: _nicknameController,
                 decoration: const InputDecoration(
@@ -135,7 +135,7 @@ class _UserEditPageState extends State<UserEditPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: AppTheme.spacing.xl),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -144,7 +144,7 @@ class _UserEditPageState extends State<UserEditPage> {
                     minimumSize: const Size.fromHeight(52),
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(AppTheme.radiusMd),
+                          BorderRadius.circular(AppTheme.radius.md),
                     ),
                   ),
                   child: _isSubmitting
@@ -156,9 +156,11 @@ class _UserEditPageState extends State<UserEditPage> {
                             color: colorScheme.onPrimary,
                           ),
                         )
-                      : const Text(
+                      : Text(
                           '保存',
-                          style: TextStyle(fontSize: 18),
+                          style: textTheme.titleLarge?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
                 ),
               ),

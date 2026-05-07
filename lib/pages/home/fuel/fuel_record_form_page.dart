@@ -200,12 +200,14 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final showOcrButton = LlmService.instance.isConfigured;
 
     return Scaffold(
       appBar: AppBar(title: Text(_isEditing ? '编辑油耗' : '记油耗')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(AppTheme.spacing.lg),
         child: Form(
           key: _formKey,
           child: Column(
@@ -213,17 +215,17 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
               // Date picker
               InkWell(
                 onTap: _pickDate,
-                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                borderRadius: BorderRadius.circular(AppTheme.radius.md),
                 child: InputDecorator(
                   decoration: const InputDecoration(
                     labelText: '日期',
                     prefixIcon: Icon(Icons.calendar_today),
                   ),
-                  child: Text(_dateStr, style: const TextStyle(fontSize: 16)),
+                  child: Text(_dateStr, style: textTheme.bodyLarge),
                 ),
               ),
               if (showOcrButton) ...[
-                const SizedBox(height: 16),
+                SizedBox(height: AppTheme.spacing.md),
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
@@ -240,13 +242,13 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius:
-                            BorderRadius.circular(AppTheme.radiusMd),
+                            BorderRadius.circular(AppTheme.radius.md),
                       ),
                     ),
                   ),
                 ),
               ],
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _totalCostController,
                 decoration: const InputDecoration(
@@ -263,7 +265,7 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _litersController,
                 decoration: const InputDecoration(
@@ -280,7 +282,7 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _unitPriceController,
                 decoration: const InputDecoration(
@@ -293,7 +295,7 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                 ),
                 readOnly: true,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _mileageController,
                 decoration: const InputDecoration(
@@ -308,7 +310,7 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: AppTheme.spacing.xl),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -316,7 +318,7 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(52),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                      borderRadius: BorderRadius.circular(AppTheme.radius.md),
                     ),
                   ),
                   child: _isSubmitting
@@ -325,12 +327,14 @@ class _FuelRecordFormPageState extends State<FuelRecordFormPage> {
                           height: 24,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Theme.of(context).colorScheme.onPrimary,
+                            color: colorScheme.onPrimary,
                           ),
                         )
                       : Text(
                           _isEditing ? '保存' : '记录',
-                          style: const TextStyle(fontSize: 18),
+                          style: textTheme.titleLarge?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
                 ),
               ),

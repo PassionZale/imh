@@ -71,13 +71,14 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(_isEditing ? '编辑打卡任务' : '新建打卡任务'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(AppTheme.spacing.lg),
         child: Form(
           key: _formKey,
           child: Column(
@@ -96,7 +97,7 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _frequencyController,
                 decoration: const InputDecoration(
@@ -106,18 +107,18 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
                 ),
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               SwitchListTile(
                 title: const Text('启用'),
                 value: _isEnabled,
                 onChanged: (value) => setState(() => _isEnabled = value),
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(AppTheme.radiusMd),
+                      BorderRadius.circular(AppTheme.radius.md),
                   side: BorderSide(color: colorScheme.outline),
                 ),
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: AppTheme.spacing.xl),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -126,7 +127,7 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
                     minimumSize: const Size.fromHeight(52),
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(AppTheme.radiusMd),
+                          BorderRadius.circular(AppTheme.radius.md),
                     ),
                   ),
                   child: _isSubmitting
@@ -140,7 +141,9 @@ class _CheckInTaskFormPageState extends State<CheckInTaskFormPage> {
                         )
                       : Text(
                           _isEditing ? '保存' : '创建',
-                          style: const TextStyle(fontSize: 18),
+                          style: textTheme.titleLarge?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
                 ),
               ),

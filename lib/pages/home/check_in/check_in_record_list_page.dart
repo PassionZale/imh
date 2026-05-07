@@ -44,10 +44,8 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
     final monthlyDays = results[1] as int;
     final streakDays = results[2] as int;
 
-    // Calculate total days (unique dates where count >= frequency)
     final totalDays = dateCountMap.entries.where((e) => e.value >= frequency).length;
 
-    // Build months list from first check-in month to current month (reversed: current first)
     final months = <DateTime>[];
     if (dateCountMap.isNotEmpty) {
       final earliestDate = dateCountMap.keys.reduce((a, b) => a.compareTo(b) < 0 ? a : b);
@@ -89,24 +87,20 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
             child: Column(
               children: [
                 _buildTaskInfo(colorScheme),
-                const SizedBox(height: 16),
+                SizedBox(height: AppTheme.spacing.md),
                 _buildStatsCard(colorScheme),
-                const SizedBox(height: 16),
+                SizedBox(height: AppTheme.spacing.md),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: AppTheme.spacing.md),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       '打卡日历',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.onSurface,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: AppTheme.spacing.sm + AppTheme.spacing.xs),
                 Expanded(
                   child: _buildCalendarList(),
                 ),
@@ -117,71 +111,41 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
   }
 
   Widget _buildTaskInfo(ColorScheme colorScheme) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      padding: EdgeInsets.fromLTRB(AppTheme.spacing.md, AppTheme.spacing.md, AppTheme.spacing.md, 0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,
         children: [
-          Text(
-            widget.task.title,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-              color: colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            '$_totalDays',
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.w700,
-              color: colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            '天',
-            style: TextStyle(
-              fontSize: 16,
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            '已坚持',
-            style: TextStyle(
-              fontSize: 14,
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
+          Text(widget.task.title, style: textTheme.headlineMedium),
+          SizedBox(width: AppTheme.spacing.sm),
+          Text('$_totalDays', style: textTheme.displayLarge),
+          SizedBox(width: AppTheme.spacing.xs),
+          Text('天', style: textTheme.bodyLarge?.copyWith(color: colorScheme.onSurfaceVariant)),
+          SizedBox(width: AppTheme.spacing.xs),
+          Text('已坚持', style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant)),
         ],
       ),
     );
   }
 
   Widget _buildStatsCard(ColorScheme colorScheme) {
+    final textTheme = Theme.of(context).textTheme;
     final now = DateTime.now();
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: AppTheme.spacing.md),
       child: Container(
         decoration: AppTheme.cardDecoration(context),
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(AppTheme.spacing.md + AppTheme.spacing.xs),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                '${now.month}月打卡情况',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: colorScheme.onSurface,
-                ),
-              ),
+              child: Text('${now.month}月打卡情况', style: textTheme.titleLarge),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: AppTheme.spacing.md),
             Row(
               children: [
                 Expanded(
@@ -204,6 +168,8 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
   }
 
   Widget _buildStatItem(ColorScheme colorScheme, String value, String unit, String label) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Column(
       children: [
         Row(
@@ -211,41 +177,22 @@ class _CheckInRecordListPageState extends State<CheckInRecordListPage> {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: colorScheme.onSurface,
-              ),
-            ),
+            Text(value, style: textTheme.headlineMedium?.copyWith(color: colorScheme.onSurface)),
             const SizedBox(width: 2),
-            Text(
-              unit,
-              style: TextStyle(
-                fontSize: 14,
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
+            Text(unit, style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant)),
           ],
         ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
+        SizedBox(height: AppTheme.spacing.xs),
+        Text(label, style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant)),
       ],
     );
   }
 
   Widget _buildCalendarList() {
     return ListView.separated(
-      padding: EdgeInsets.fromLTRB(16, 0, 16, max(16, MediaQuery.of(context).viewPadding.bottom)),
+      padding: EdgeInsets.fromLTRB(AppTheme.spacing.md, 0, AppTheme.spacing.md, max(AppTheme.spacing.md, MediaQuery.of(context).viewPadding.bottom)),
       itemCount: _months.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 20),
+      separatorBuilder: (_, _) => SizedBox(height: AppTheme.spacing.md + AppTheme.spacing.xs),
       itemBuilder: (context, index) {
         final month = _months[index];
         return MonthCalendar(

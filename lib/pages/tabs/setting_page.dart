@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../database/models/user.dart';
 import '../../services/current_user_service.dart';
 import '../../services/theme_service.dart';
+import '../../theme/app_theme.dart';
+import '../../theme/app_page_route.dart';
 import '../settings/user_edit_page.dart';
 import '../settings/check_in/check_in_task_list_page.dart';
 import '../settings/car/car_list_page.dart';
@@ -56,31 +58,31 @@ class _SettingPageState extends State<SettingPage> {
 
   void _navigateToUserEdit() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const UserEditPage()),
+      AppPageRoute(builder: (_) => const UserEditPage()),
     );
   }
 
   void _navigateToCheckInTasks() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const CheckInTaskListPage()),
+      AppPageRoute(builder: (_) => const CheckInTaskListPage()),
     );
   }
 
   void _navigateToCars() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const CarListPage()),
+      AppPageRoute(builder: (_) => const CarListPage()),
     );
   }
 
   void _navigateToDataImport() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const DataImportPage()),
+      AppPageRoute(builder: (_) => const DataImportPage()),
     );
   }
 
   void _navigateToEnvSettings() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const EnvSettingsPage()),
+      AppPageRoute(builder: (_) => const EnvSettingsPage()),
     );
   }
 
@@ -132,6 +134,7 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -142,7 +145,7 @@ class _SettingPageState extends State<SettingPage> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 32),
+                  SizedBox(height: AppTheme.spacing.xl),
                   GestureDetector(
                     onTap: _navigateToUserEdit,
                     child: Column(
@@ -160,21 +163,19 @@ class _SettingPageState extends State<SettingPage> {
                                 )
                               : null,
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: AppTheme.spacing.sm),
                         Text(
                           _currentUser!.nickname,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+                          style: textTheme.titleLarge?.copyWith(
                             color: colorScheme.onSurface,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  SizedBox(height: AppTheme.spacing.xl),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: AppTheme.spacing.md),
                     child: Column(
                       children: [
                         ListTile(
@@ -222,12 +223,11 @@ class _SettingPageState extends State<SettingPage> {
                               Text(
                                 _themeModeLabel(
                                     ThemeService.instance.themeMode),
-                                style: TextStyle(
+                                style: textTheme.labelLarge?.copyWith(
                                   color: colorScheme.onSurfaceVariant,
-                                  fontSize: 14,
                                 ),
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: AppTheme.spacing.xs),
                               const Icon(Icons.chevron_right),
                             ],
                           ),

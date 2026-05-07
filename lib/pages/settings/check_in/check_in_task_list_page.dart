@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../database/models/check_in_task.dart';
 import '../../../repositories/check_in_task_repository.dart';
 import '../../../components/empty/empty.dart';
+import '../../../theme/app_theme.dart';
+import '../../../theme/app_page_route.dart';
 import 'check_in_task_form_page.dart';
 
 class CheckInTaskListPage extends StatefulWidget {
@@ -34,7 +36,7 @@ class _CheckInTaskListPageState extends State<CheckInTaskListPage> {
 
   Future<void> _navigateToForm([CheckInTask? task]) async {
     final result = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
+      AppPageRoute(
         builder: (_) => CheckInTaskFormPage(task: task),
       ),
     );
@@ -99,7 +101,7 @@ class _CheckInTaskListPageState extends State<CheckInTaskListPage> {
                       confirmDismiss: (_) => _deleteTask(task),
                       background: Container(
                         alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 24),
+                        padding: EdgeInsets.only(right: AppTheme.spacing.lg),
                         color: colorScheme.error,
                         child: Icon(
                           Icons.delete_outline,

@@ -81,13 +81,14 @@ class _CarFormPageState extends State<CarFormPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(_isEditing ? '编辑车辆' : '新增车辆'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(AppTheme.spacing.lg),
         child: Form(
           key: _formKey,
           child: Column(
@@ -106,7 +107,7 @@ class _CarFormPageState extends State<CarFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _modelController,
                 decoration: const InputDecoration(
@@ -121,7 +122,7 @@ class _CarFormPageState extends State<CarFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _plateNumberController,
                 decoration: const InputDecoration(
@@ -136,7 +137,7 @@ class _CarFormPageState extends State<CarFormPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _colorController,
                 decoration: const InputDecoration(
@@ -145,7 +146,7 @@ class _CarFormPageState extends State<CarFormPage> {
                   prefixIcon: Icon(Icons.palette_outlined),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: AppTheme.spacing.md),
               TextFormField(
                 controller: _yearController,
                 decoration: const InputDecoration(
@@ -155,7 +156,7 @@ class _CarFormPageState extends State<CarFormPage> {
                 ),
                 keyboardType: TextInputType.number,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: AppTheme.spacing.xl),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -164,7 +165,7 @@ class _CarFormPageState extends State<CarFormPage> {
                     minimumSize: const Size.fromHeight(52),
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(AppTheme.radiusMd),
+                          BorderRadius.circular(AppTheme.radius.md),
                     ),
                   ),
                   child: _isSubmitting
@@ -178,7 +179,9 @@ class _CarFormPageState extends State<CarFormPage> {
                         )
                       : Text(
                           _isEditing ? '保存' : '创建',
-                          style: const TextStyle(fontSize: 18),
+                          style: textTheme.titleLarge?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
                 ),
               ),

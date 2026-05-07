@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../database/models/car.dart';
 import '../../../repositories/car_repository.dart';
 import '../../../components/empty/empty.dart';
+import '../../../theme/app_theme.dart';
+import '../../../theme/app_page_route.dart';
 import 'car_form_page.dart';
 
 class CarListPage extends StatefulWidget {
@@ -34,7 +36,7 @@ class _CarListPageState extends State<CarListPage> {
 
   Future<void> _navigateToForm([Car? car]) async {
     final result = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
+      AppPageRoute(
         builder: (_) => CarFormPage(car: car),
       ),
     );
@@ -99,7 +101,7 @@ class _CarListPageState extends State<CarListPage> {
                       confirmDismiss: (_) => _deleteCar(car),
                       background: Container(
                         alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 24),
+                        padding: EdgeInsets.only(right: AppTheme.spacing.lg),
                         color: colorScheme.error,
                         child: Icon(
                           Icons.delete_outline,

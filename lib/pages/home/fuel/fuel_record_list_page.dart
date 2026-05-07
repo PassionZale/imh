@@ -3,6 +3,8 @@ import '../../../database/models/car.dart';
 import '../../../database/models/car_fuel_record.dart';
 import '../../../repositories/car_fuel_record_repository.dart';
 import '../../../components/empty/empty.dart';
+import '../../../theme/app_theme.dart';
+import '../../../theme/app_page_route.dart';
 import 'widgets/fuel_record_card.dart';
 import 'fuel_record_form_page.dart';
 
@@ -38,7 +40,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
 
   Future<void> _navigateToForm([CarFuelRecord? record]) async {
     final result = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
+      AppPageRoute(
         builder: (_) =>
             FuelRecordFormPage(carId: widget.car.id!, record: record),
       ),
@@ -125,11 +127,12 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
 
   Widget _buildGroupedList() {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final grouped = _groupRecordsByMonth();
     final sortedMonths = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
 
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: EdgeInsets.symmetric(vertical: AppTheme.spacing.md),
       itemCount: sortedMonths.length,
       itemBuilder: (context, index) {
         final month = sortedMonths[index];
@@ -141,12 +144,10 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
           children: [
             // 分组标题
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+              padding: EdgeInsets.fromLTRB(AppTheme.spacing.md, AppTheme.spacing.md, AppTheme.spacing.md, 12),
               child: Text(
                 _formatMonthTitle(month),
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                style: textTheme.titleLarge?.copyWith(
                   color: colorScheme.onSurface,
                 ),
               ),
@@ -168,7 +169,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
               );
             }),
             // 月与月之间的间距
-            if (index < sortedMonths.length - 1) const SizedBox(height: 16),
+            if (index < sortedMonths.length - 1) SizedBox(height: AppTheme.spacing.md),
           ],
         );
       },
@@ -182,6 +183,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
     required bool isLastInMonth,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     final card = isLatest
         ? Dismissible(
@@ -190,7 +192,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
             confirmDismiss: (_) => _deleteLatestRecord(record),
             background: Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 24),
+              padding: EdgeInsets.only(right: AppTheme.spacing.lg),
               color: colorScheme.error,
               child: Icon(Icons.delete_outline, color: colorScheme.onError),
             ),
@@ -216,8 +218,7 @@ class _FuelRecordListPageState extends State<FuelRecordListPage> {
                   padding: const EdgeInsets.only(top: 26),
                   child: Text(
                     '$day日',
-                    style: TextStyle(
-                      fontSize: 16,
+                    style: textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: colorScheme.onSurface,
                       height: 1.5,

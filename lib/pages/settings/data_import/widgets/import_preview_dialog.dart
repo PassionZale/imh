@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../database/models/car_fuel_record.dart';
 import '../../../../database/models/check_in_record.dart';
+import '../../../../theme/app_theme.dart';
 
 /// 显示导入预览对话框
 ///
@@ -23,9 +24,9 @@ Future<bool> showImportPreviewDialog({
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('解析成功，共 $count 条记录'),
-          const SizedBox(height: 16),
+          SizedBox(height: AppTheme.spacing.md),
           const Text('前 3 条预览：'),
-          const SizedBox(height: 8),
+          SizedBox(height: AppTheme.spacing.sm),
           ..._buildPreviewItems(isFuel, fuelRecords, checkinRecords),
         ],
       ),
@@ -55,7 +56,7 @@ List<Widget> _buildPreviewItems(
     return List.generate(previewCount, (i) {
       final r = fuelRecords[i];
       return Padding(
-        padding: const EdgeInsets.only(bottom: 4),
+        padding: EdgeInsets.only(bottom: AppTheme.spacing.xs),
         child: Text(
           '${r.date}  ${r.liters.toStringAsFixed(1)}L  '
           '${r.totalCost.toStringAsFixed(1)}元  ${r.mileage}km',
@@ -67,7 +68,7 @@ List<Widget> _buildPreviewItems(
     return List.generate(previewCount, (i) {
       final r = checkinRecords[i];
       return Padding(
-        padding: const EdgeInsets.only(bottom: 4),
+        padding: EdgeInsets.only(bottom: AppTheme.spacing.xs),
         child: Text(
           r.date,
           style: const TextStyle(fontSize: 12),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../theme/app_theme.dart';
+import '../../../theme/app_page_route.dart';
 import '../../../database/models/check_in_task.dart';
 import '../../home/check_in/check_in_record_list_page.dart';
 
@@ -33,7 +34,7 @@ class _CheckInCardState extends State<CheckInCard>
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
     );
   }
@@ -65,33 +66,24 @@ class _CheckInCardState extends State<CheckInCard>
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => CheckInRecordListPage(task: widget.task),
-          ),
+          AppPageRoute(builder: (_) => CheckInRecordListPage(task: widget.task)),
         );
       },
       child: Container(
         decoration: AppTheme.cardDecoration(context),
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(AppTheme.spacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title + Button row
             Row(
               children: [
                 Expanded(
-                  child: Text(
-                    widget.task.title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
+                  child: Text(widget.task.title, style: textTheme.titleLarge),
                 ),
                 ScaleTransition(
                   scale: _scaleAnimation,
@@ -104,11 +96,13 @@ class _CheckInCardState extends State<CheckInCard>
                           _canCheckIn ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
                       disabledBackgroundColor: colorScheme.surfaceContainerHighest,
                       disabledForegroundColor: colorScheme.onSurfaceVariant,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: AppTheme.spacing.md + AppTheme.spacing.xs,
+                        vertical: 10,
+                      ),
                       minimumSize: const Size(0, 40),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                        borderRadius: BorderRadius.circular(AppTheme.radius.md),
                         side: BorderSide(
                           color: _canCheckIn
                               ? colorScheme.primary
@@ -117,17 +111,12 @@ class _CheckInCardState extends State<CheckInCard>
                       ),
                       elevation: 0,
                     ),
-                    child: Text(
-                      _buttonText,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
+                    child: Text(_buttonText),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            // Days counter with animation + arrow hint
+            SizedBox(height: AppTheme.spacing.md),
             TweenAnimationBuilder<int>(
               tween: IntTween(begin: 0, end: widget.totalDays),
               duration: const Duration(milliseconds: 600),
@@ -137,30 +126,11 @@ class _CheckInCardState extends State<CheckInCard>
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text(
-                      '$value',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w700,
-                        color: colorScheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      '天',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      '已坚持',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                    ),
+                    Text('$value', style: textTheme.displayLarge),
+                    SizedBox(width: AppTheme.spacing.xs),
+                    Text('天', style: textTheme.bodyLarge?.copyWith(color: colorScheme.onSurfaceVariant)),
+                    SizedBox(width: AppTheme.spacing.xs),
+                    Text('已坚持', style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant)),
                   ],
                 );
               },

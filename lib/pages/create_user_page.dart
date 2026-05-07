@@ -52,6 +52,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return PopScope(
       canPop: false,
@@ -59,7 +60,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: EdgeInsets.symmetric(horizontal: AppTheme.spacing.xl),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -70,19 +71,19 @@ class _CreateUserPageState extends State<CreateUserPage> {
                       size: 64,
                       color: colorScheme.primary,
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: AppTheme.spacing.lg),
                     Text(
                       '欢迎来到 imh',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                      style: textTheme.headlineMedium?.copyWith(
                         color: colorScheme.onSurface,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: AppTheme.spacing.sm),
                     Text(
                       '设置你的昵称和头像以开始使用',
-                      style: TextStyle(fontSize: 16, color: colorScheme.onSurfaceVariant),
+                      style: textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(height: 40),
                     GestureDetector(
@@ -103,11 +104,10 @@ class _CreateUserPageState extends State<CreateUserPage> {
                                     size: 28,
                                     color: colorScheme.onSurfaceVariant,
                                   ),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: AppTheme.spacing.xs),
                                   Text(
                                     '添加头像',
-                                    style: TextStyle(
-                                      fontSize: 10,
+                                    style: textTheme.labelSmall?.copyWith(
                                       color: colorScheme.onSurfaceVariant,
                                     ),
                                   ),
@@ -127,7 +127,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                               ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: AppTheme.spacing.xl),
                     TextFormField(
                       controller: _nicknameController,
                       decoration: InputDecoration(
@@ -135,7 +135,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                         hintText: '请输入昵称',
                         prefixIcon: const Icon(Icons.badge_outlined),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+                          borderRadius: BorderRadius.circular(AppTheme.radius.lg),
                         ),
                       ),
                       validator: (value) {
@@ -145,7 +145,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: AppTheme.spacing.xl),
                     ElevatedButton(
                       onPressed: _isSubmitting ? null : _submit,
                       style: ElevatedButton.styleFrom(
@@ -153,7 +153,7 @@ class _CreateUserPageState extends State<CreateUserPage> {
                         foregroundColor: colorScheme.onPrimary,
                         minimumSize: const Size.fromHeight(52),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                          borderRadius: BorderRadius.circular(AppTheme.radius.md),
                         ),
                       ),
                       child: _isSubmitting
@@ -165,9 +165,11 @@ class _CreateUserPageState extends State<CreateUserPage> {
                                 color: colorScheme.onPrimary,
                               ),
                             )
-                          : const Text(
+                          : Text(
                               '开始使用',
-                              style: TextStyle(fontSize: 18),
+                              style: textTheme.titleLarge?.copyWith(
+                                color: colorScheme.onPrimary,
+                              ),
                             ),
                     ),
                   ],

@@ -8,6 +8,7 @@ import '../../repositories/check_in_record_repository.dart';
 import '../../repositories/car_repository.dart';
 import '../../repositories/car_fuel_record_repository.dart';
 import '../../components/empty/empty.dart';
+import '../../theme/app_theme.dart';
 import 'home/check_in_card.dart';
 import 'home/car_card.dart';
 
@@ -108,23 +109,37 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('IMH'),
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: _loadData,
-              child: ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  ..._buildCheckInCards(),
-                  const SizedBox(height: 16),
-                  ..._buildCarCards(),
-                ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              colorScheme.surface,
+              colorScheme.surfaceContainerHighest,
+            ],
+          ),
+        ),
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                onRefresh: _loadData,
+                child: ListView(
+                  padding: EdgeInsets.all(AppTheme.spacing.md),
+                  children: [
+                    ..._buildCheckInCards(),
+                    SizedBox(height: AppTheme.spacing.md),
+                    ..._buildCarCards(),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 
@@ -143,7 +158,7 @@ class _HomePageState extends State<HomePage> {
     return _tasks.map((task) {
       if (task.id == null) return const SizedBox.shrink();
       return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.only(bottom: AppTheme.spacing.md),
         child: CheckInCard(
           task: task,
           todayCount: _getTodayCount(task.id!),
@@ -168,7 +183,7 @@ class _HomePageState extends State<HomePage> {
     }
     return _cars.map((car) {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.only(bottom: AppTheme.spacing.md),
         child: CarCard(
           car: car,
           stats: _fuelStatsMap[car.id!] ?? const CarFuelStats(),

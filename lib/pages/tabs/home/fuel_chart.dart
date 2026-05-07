@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import '../../../theme/app_theme.dart';
 import '../../../database/models/car_fuel_record.dart';
 
 /// 图表数据范围配置（月数）
@@ -28,13 +29,8 @@ class FuelChart extends StatefulWidget {
 class _FuelChartState extends State<FuelChart> {
   FuelChartTab _currentTab = FuelChartTab.consumption;
 
-  // 油耗数据
   List<CarFuelRecord>? _consumptionData;
-
-  // 油费数据
   List<({String month, double totalCost})>? _costData;
-
-  // 柱状图触摸高亮
   int? _touchedBarIndex;
 
   bool get _isLoading =>
@@ -80,7 +76,7 @@ class _FuelChartState extends State<FuelChart> {
     return Column(
       children: [
         _buildTabs(),
-        const SizedBox(height: 20),
+        SizedBox(height: AppTheme.spacing.md + AppTheme.spacing.xs),
         _buildChartArea(),
       ],
     );
@@ -90,7 +86,7 @@ class _FuelChartState extends State<FuelChart> {
     return Row(
       children: [
         _buildTab('油耗', FuelChartTab.consumption),
-        const SizedBox(width: 8),
+        SizedBox(width: AppTheme.spacing.sm),
         _buildTab('油费', FuelChartTab.cost),
       ],
     );
@@ -98,23 +94,22 @@ class _FuelChartState extends State<FuelChart> {
 
   Widget _buildTab(String label, FuelChartTab tab) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final selected = _currentTab == tab;
     return GestureDetector(
       onTap: () => _onTabChanged(tab),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: AppTheme.spacing.md, vertical: 6),
         decoration: BoxDecoration(
           color: selected ? colorScheme.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radius.lg),
           border: Border.all(
             color: selected ? colorScheme.primary : colorScheme.outline,
           ),
         ),
         child: Text(
           label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
+          style: textTheme.labelLarge?.copyWith(
             color: selected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant,
           ),
         ),
@@ -149,18 +144,17 @@ class _FuelChartState extends State<FuelChart> {
 
   Widget _buildConsumptionChart(List<CarFuelRecord> records) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final spots = <FlSpot>[];
     final labels = <int, String>{};
-    // tooltip 用的完整日期
     final tooltipLabels = <int, String>{};
-    // 追踪已显示的月份，同月只标一次
     final shownMonths = <String>{};
     for (int i = 0; i < records.length; i++) {
       final r = records[i];
       if (r.consumption != null) {
         spots.add(FlSpot(i.toDouble(), r.consumption!));
         tooltipLabels[i] = _formatDateLabel(r.date);
-        final monthKey = r.date.substring(0, 7); // YYYY-MM
+        final monthKey = r.date.substring(0, 7);
         if (shownMonths.add(monthKey)) {
           labels[i] = _formatMonthLabel(r.date);
         }
@@ -201,10 +195,7 @@ class _FuelChartState extends State<FuelChart> {
                 reservedSize: 36,
                 getTitlesWidget: (value, meta) => Text(
                   value.toStringAsFixed(value == value.roundToDouble() ? 0 : 1),
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                  style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
                 ),
               ),
             ),
@@ -220,10 +211,7 @@ class _FuelChartState extends State<FuelChart> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       label,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+                      style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
                     ),
                   );
                 },
@@ -276,6 +264,7 @@ class _FuelChartState extends State<FuelChart> {
 
   Widget _buildCostChart(List<({String month, double totalCost})> data) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final barGroups = <BarChartGroupData>[];
     for (int i = 0; i < data.length; i++) {
       barGroups.add(
@@ -332,10 +321,7 @@ class _FuelChartState extends State<FuelChart> {
                 reservedSize: 40,
                 getTitlesWidget: (value, meta) => Text(
                   value >= 1000 ? '${(value / 1000).toStringAsFixed(1)}k' : value.round().toString(),
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
+                  style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
                 ),
               ),
             ),
@@ -352,10 +338,7 @@ class _FuelChartState extends State<FuelChart> {
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       '$month月',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: colorScheme.onSurfaceVariant,
-                      ),
+                      style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
                     ),
                   );
                 },
@@ -396,7 +379,6 @@ class _FuelChartState extends State<FuelChart> {
     );
   }
 
-  /// 将 YYYY-MM-DD 格式化为 M月D日（不补零）
   String _formatDateLabel(String date) {
     final parts = date.split('-');
     final month = int.parse(parts[1]);
@@ -404,7 +386,6 @@ class _FuelChartState extends State<FuelChart> {
     return '$month月$day日';
   }
 
-  /// 将 YYYY-MM-DD 格式化为 M月（不补零）
   String _formatMonthLabel(String date) {
     final parts = date.split('-');
     final month = int.parse(parts[1]);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../database/models/car_fuel_record.dart';
+import '../../../../theme/app_theme.dart';
 
 class FuelRecordCard extends StatelessWidget {
   final CarFuelRecord record;
@@ -20,10 +21,15 @@ class FuelRecordCard extends StatelessWidget {
     return GestureDetector(
       onTap: isLatest ? onTap : null,
       child: Container(
-        margin: const EdgeInsets.only(left: 8, right: 16, top: 6, bottom: 6),
+        margin: EdgeInsets.only(
+          left: AppTheme.spacing.sm,
+          right: AppTheme.spacing.md,
+          top: 6,
+          bottom: 6,
+        ),
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(AppTheme.radius.sm),
           border: Border.all(color: colorScheme.outline),
         ),
         child: Column(
@@ -36,21 +42,20 @@ class FuelRecordCard extends StatelessWidget {
 
   Widget _buildHeaderRow(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
-    // 第一条记录：显示占位文案
     if (record.mileageDelta == null) {
       return Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(AppTheme.spacing.md),
         child: Text(
           '加满两次即可计算最新油耗',
-          style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
+          style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurfaceVariant),
         ),
       );
     }
 
-    // 正常记录：显示两个核心指标
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spacing.md),
       child: Row(
         children: [
           Expanded(child: _buildMetric(context, record.consumption, 'L/100km')),
@@ -62,15 +67,12 @@ class FuelRecordCard extends StatelessWidget {
 
   Widget _buildMetric(BuildContext context, double? value, String unit) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     if (value == null) {
       return Text(
         '-',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: colorScheme.onSurface,
-        ),
+        style: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
       );
     }
 
@@ -80,16 +82,12 @@ class FuelRecordCard extends StatelessWidget {
       children: [
         Text(
           value.toStringAsFixed(2),
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: colorScheme.primary,
-          ),
+          style: textTheme.headlineMedium?.copyWith(color: colorScheme.primary),
         ),
-        const SizedBox(width: 4),
+        SizedBox(width: AppTheme.spacing.xs),
         Text(
           unit,
-          style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
+          style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
         ),
       ],
     );
@@ -97,7 +95,7 @@ class FuelRecordCard extends StatelessWidget {
 
   Widget _buildDataGrid(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: AppTheme.spacing.md),
       child: Column(
         children: [
           Row(
@@ -113,7 +111,7 @@ class FuelRecordCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: AppTheme.spacing.sm + AppTheme.spacing.xs),
           Row(
             children: [
               Expanded(
@@ -141,6 +139,7 @@ class FuelRecordCard extends StatelessWidget {
 
   Widget _buildDataItem(BuildContext context, String number, String unit, String label) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,26 +150,22 @@ class FuelRecordCard extends StatelessWidget {
           children: [
             Text(
               number,
-              style: TextStyle(
-                fontSize: 16,
+              style: textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w500,
                 color: colorScheme.onSurface,
               ),
             ),
-            const SizedBox(width: 4),
+            SizedBox(width: AppTheme.spacing.xs),
             Text(
               unit,
-              style: TextStyle(
-                fontSize: 12,
-                color: colorScheme.onSurfaceVariant,
-              ),
+              style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
             ),
           ],
         ),
         const SizedBox(height: 2),
         Text(
           label,
-          style: TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant),
+          style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
         ),
       ],
     );
@@ -178,12 +173,13 @@ class FuelRecordCard extends StatelessWidget {
 
   Widget _buildFooterRow(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(AppTheme.spacing.md),
       child: Text(
         '+${record.mileageDelta ?? 0}km',
-        style: TextStyle(fontSize: 14, color: colorScheme.onSurface),
+        style: textTheme.labelLarge?.copyWith(color: colorScheme.onSurface),
       ),
     );
   }

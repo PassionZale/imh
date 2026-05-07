@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../theme/app_theme.dart';
 
 class MonthCalendar extends StatelessWidget {
   final int year;
@@ -17,29 +18,29 @@ class MonthCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: EdgeInsets.only(bottom: AppTheme.spacing.sm),
           child: Text(
             '$year年$month月',
-            style: TextStyle(
-              fontSize: 16,
+            style: textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w600,
               color: colorScheme.onSurface,
             ),
           ),
         ),
-        _buildWeekHeader(colorScheme),
-        const SizedBox(height: 8),
-        ..._buildWeekRows(colorScheme),
+        _buildWeekHeader(colorScheme, textTheme),
+        SizedBox(height: AppTheme.spacing.sm),
+        ..._buildWeekRows(colorScheme, textTheme),
       ],
     );
   }
 
-  Widget _buildWeekHeader(ColorScheme colorScheme) {
+  Widget _buildWeekHeader(ColorScheme colorScheme, TextTheme textTheme) {
     const labels = ['日', '一', '二', '三', '四', '五', '六'];
     return Row(
       children: labels.map((label) {
@@ -47,8 +48,7 @@ class MonthCalendar extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: TextStyle(
-                fontSize: 12,
+              style: textTheme.labelSmall?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
             ),
@@ -58,7 +58,7 @@ class MonthCalendar extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildWeekRows(ColorScheme colorScheme) {
+  List<Widget> _buildWeekRows(ColorScheme colorScheme, TextTheme textTheme) {
     final firstDay = DateTime(year, month, 1);
     final daysInMonth = DateTime(year, month + 1, 0).day;
     final startWeekday = firstDay.weekday % 7; // Sunday = 0
@@ -80,11 +80,12 @@ class MonthCalendar extends StatelessWidget {
           day: day,
           isCompleted: isCompleted,
           colorScheme: colorScheme,
+          textTheme: textTheme,
         ),
       ));
 
       if (cells.length == 7) {
-        rows.add(const SizedBox(height: 8));
+        rows.add(SizedBox(height: AppTheme.spacing.sm));
         rows.add(Row(children: List.from(cells)));
         cells.clear();
       }
@@ -95,7 +96,7 @@ class MonthCalendar extends StatelessWidget {
       while (cells.length < 7) {
         cells.add(const Expanded(child: SizedBox.shrink()));
       }
-      rows.add(const SizedBox(height: 8));
+      rows.add(SizedBox(height: AppTheme.spacing.sm));
       rows.add(Row(children: List.from(cells)));
     }
 
@@ -113,19 +114,21 @@ class _DayCell extends StatelessWidget {
   final int day;
   final bool isCompleted;
   final ColorScheme colorScheme;
+  final TextTheme textTheme;
 
   const _DayCell({
     required this.day,
     required this.isCompleted,
     required this.colorScheme,
+    required this.textTheme,
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 32,
-        height: 32,
+        width: AppTheme.spacing.xl,
+        height: AppTheme.spacing.xl,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: isCompleted ? colorScheme.primary : Colors.transparent,
@@ -133,8 +136,7 @@ class _DayCell extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           '$day',
-          style: TextStyle(
-            fontSize: 14,
+          style: textTheme.labelLarge?.copyWith(
             fontWeight: isCompleted ? FontWeight.w600 : FontWeight.normal,
             color: isCompleted ? colorScheme.onPrimary : colorScheme.onSurface,
           ),

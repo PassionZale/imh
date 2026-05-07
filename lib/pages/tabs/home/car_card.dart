@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../theme/app_theme.dart';
+import '../../../theme/app_page_route.dart';
 import '../../../database/models/car.dart';
 import '../../../database/models/car_fuel_stats.dart';
 import '../../../repositories/car_fuel_record_repository.dart';
@@ -33,48 +34,42 @@ class CarCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Container(
       decoration: AppTheme.cardDecoration(context),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(AppTheme.spacing.lg),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '${car.brand} ${car.model}',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(height: 16),
+          Text('${car.brand} ${car.model}', style: textTheme.titleLarge),
+          SizedBox(height: AppTheme.spacing.md),
           Divider(height: 1, color: colorScheme.outline),
-          const SizedBox(height: 16),
+          SizedBox(height: AppTheme.spacing.md),
           GridView.count(
             crossAxisCount: 3,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 12,
+            mainAxisSpacing: AppTheme.spacing.sm,
+            crossAxisSpacing: AppTheme.spacing.sm + AppTheme.spacing.xs,
             childAspectRatio: 1.6,
             children: _gridItems.map((item) {
               return _buildGridCell(context, item.value, item.unit, item.title);
             }).toList(),
           ),
           if (car.id != null) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: AppTheme.spacing.md),
             Divider(height: 1, color: colorScheme.outline),
-            const SizedBox(height: 16),
+            SizedBox(height: AppTheme.spacing.md),
             FuelChart(
               carId: car.id!,
               getRecentRecords: CarFuelRecordRepository().getRecentRecords,
               getMonthlyCost: CarFuelRecordRepository().getMonthlyCost,
             ),
           ],
-          const SizedBox(height: 16),
+          SizedBox(height: AppTheme.spacing.md),
           Divider(height: 1, color: colorScheme.outline),
-          const SizedBox(height: 16),
+          SizedBox(height: AppTheme.spacing.md),
           _buildActionButtons(context),
         ],
       ),
@@ -83,6 +78,7 @@ class CarCard extends StatelessWidget {
 
   Widget _buildGridCell(BuildContext context, String value, String unit, String title) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,35 +88,19 @@ class CarCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: colorScheme.onSurface,
-              ),
-            ),
-            const SizedBox(width: 2),
+            Text(value, style: textTheme.titleLarge),
+            SizedBox(width: 2),
             Flexible(
               child: Text(
                 unit,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: colorScheme.onSurfaceVariant,
-                ),
+                style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 4),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 12,
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
+        SizedBox(height: AppTheme.spacing.xs),
+        Text(title, style: textTheme.labelSmall?.copyWith(color: colorScheme.onSurfaceVariant)),
       ],
     );
   }
@@ -134,29 +114,25 @@ class CarCard extends StatelessWidget {
           child: TextButton(
             onPressed: () async {
               await Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => FuelRecordListPage(car: car),
-                ),
+                AppPageRoute(builder: (_) => FuelRecordListPage(car: car)),
               );
               onDataChanged?.call();
             },
             style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: EdgeInsets.symmetric(vertical: AppTheme.spacing.sm + AppTheme.spacing.xs),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                borderRadius: BorderRadius.circular(AppTheme.radius.md),
               ),
             ),
             child: const Text('历史油耗'),
           ),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: AppTheme.spacing.sm + AppTheme.spacing.xs),
         Expanded(
           child: ElevatedButton(
             onPressed: () async {
               final result = await Navigator.of(context).push<bool>(
-                MaterialPageRoute(
-                  builder: (_) => FuelRecordFormPage(carId: car.id!),
-                ),
+                AppPageRoute(builder: (_) => FuelRecordFormPage(carId: car.id!)),
               );
               if (result == true) {
                 onDataChanged?.call();
@@ -165,9 +141,9 @@ class CarCard extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: colorScheme.primary,
               foregroundColor: colorScheme.onPrimary,
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: EdgeInsets.symmetric(vertical: AppTheme.spacing.sm + AppTheme.spacing.xs),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                borderRadius: BorderRadius.circular(AppTheme.radius.md),
               ),
               elevation: 0,
             ),
