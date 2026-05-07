@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0]
+
+### Changed
+- 重构底部导航为 3 Tab：车辆、打卡、设置（原 2 Tab：首页、设置）
+- 按功能域重组 pages 目录（car/、check_in/、settings/）
+- 全量迁移至 package import 风格，启用 always_use_package_imports lint
+
+### Features
+- 车辆 Tab 和打卡 Tab 支持下拉刷新
+- 点击已选中的 Tab 图标触发刷新（RefreshIndicator 编程式触发）
+
 ## [1.2.0]
 
 ### Features
