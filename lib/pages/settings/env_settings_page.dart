@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../services/llm_service.dart';
-import '../../theme/app_theme.dart';
+import 'package:imh/services/llm_service.dart';
+import 'package:imh/theme/app_theme.dart';
 
 class EnvSettingsPage extends StatefulWidget {
   const EnvSettingsPage({super.key});

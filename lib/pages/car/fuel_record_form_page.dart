@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../database/models/car_fuel_record.dart';
-import '../../../repositories/car_fuel_record_repository.dart';
-import '../../../services/llm_service.dart';
-import '../../../theme/app_theme.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
+import 'package:imh/repositories/car_fuel_record_repository.dart';
+import 'package:imh/services/llm_service.dart';
+import 'package:imh/theme/app_theme.dart';
 
 class FuelRecordFormPage extends StatefulWidget {
   final int carId;

@@ -1,6 +1,6 @@
 import 'dart:convert';
-import '../../../../database/models/car_fuel_record.dart';
-import 'date_validator.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
+import 'package:imh/pages/settings/data_import/parsers/date_validator.dart';
 
 /// 加油记录导入结果
 class FuelImportResult {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../database/models/car.dart';
-import '../../../repositories/car_repository.dart';
-import '../../../components/empty/empty.dart';
-import '../../../theme/app_theme.dart';
-import '../../../theme/app_page_route.dart';
-import 'car_form_page.dart';
+import 'package:imh/database/models/car.dart';
+import 'package:imh/repositories/car_repository.dart';
+import 'package:imh/components/empty/empty.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/theme/app_page_route.dart';
+import 'package:imh/pages/car/car_form_page.dart';
 
 class CarListPage extends StatefulWidget {
   const CarListPage({super.key});

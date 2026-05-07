@@ -1,4 +1,4 @@
-import 'car_fuel_record.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
 
 class CarFuelStats {
   final double? latestConsumption;

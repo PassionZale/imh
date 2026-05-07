@@ -1,9 +1,9 @@
 import 'dart:math' show max;
 import 'package:flutter/material.dart';
-import '../../../theme/app_theme.dart';
-import '../../../database/models/check_in_task.dart';
-import '../../../repositories/check_in_record_repository.dart';
-import 'widgets/month_calendar.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/repositories/check_in_record_repository.dart';
+import 'package:imh/pages/check_in/widgets/month_calendar.dart';
 
 class CheckInRecordListPage extends StatefulWidget {
   final CheckInTask task;

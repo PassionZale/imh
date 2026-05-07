@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../database/models/check_in_task.dart';
-import '../../../repositories/check_in_task_repository.dart';
-import '../../../components/empty/empty.dart';
-import '../../../theme/app_theme.dart';
-import '../../../theme/app_page_route.dart';
-import 'check_in_task_form_page.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/repositories/check_in_task_repository.dart';
+import 'package:imh/components/empty/empty.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/theme/app_page_route.dart';
+import 'package:imh/pages/check_in/check_in_task_form_page.dart';
 
 class CheckInTaskListPage extends StatefulWidget {
   const CheckInTaskListPage({super.key});

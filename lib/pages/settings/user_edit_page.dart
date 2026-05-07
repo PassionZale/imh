@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../database/models/user.dart';
-import '../../services/current_user_service.dart';
-import '../../services/image_service.dart';
-import '../../theme/app_theme.dart';
+import 'package:imh/database/models/user.dart';
+import 'package:imh/services/current_user_service.dart';
+import 'package:imh/services/image_service.dart';
+import 'package:imh/theme/app_theme.dart';
 
 class UserEditPage extends StatefulWidget {
   const UserEditPage({super.key});

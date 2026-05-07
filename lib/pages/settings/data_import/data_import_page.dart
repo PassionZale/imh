@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../../database/models/car_fuel_record.dart';
-import '../../../../database/models/check_in_record.dart';
-import '../../../../repositories/car_fuel_record_repository.dart';
-import '../../../../repositories/check_in_record_repository.dart';
-import '../../../../repositories/car_repository.dart';
-import '../../../../repositories/check_in_task_repository.dart';
-import '../../../../database/models/car.dart';
-import '../../../../database/models/check_in_task.dart';
-import '../../../../theme/app_theme.dart';
-import 'widgets/import_type_selector.dart';
-import 'widgets/json_paste_area.dart';
-import 'widgets/copy_template_button.dart';
-import 'widgets/import_preview_dialog.dart';
-import 'widgets/import_progress_dialog.dart';
-import 'parsers/fuel_import_parser.dart';
-import 'parsers/checkin_import_parser.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
+import 'package:imh/database/models/check_in_record.dart';
+import 'package:imh/repositories/car_fuel_record_repository.dart';
+import 'package:imh/repositories/check_in_record_repository.dart';
+import 'package:imh/repositories/car_repository.dart';
+import 'package:imh/repositories/check_in_task_repository.dart';
+import 'package:imh/database/models/car.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/pages/settings/data_import/widgets/import_type_selector.dart';
+import 'package:imh/pages/settings/data_import/widgets/json_paste_area.dart';
+import 'package:imh/pages/settings/data_import/widgets/copy_template_button.dart';
+import 'package:imh/pages/settings/data_import/widgets/import_preview_dialog.dart';
+import 'package:imh/pages/settings/data_import/widgets/import_progress_dialog.dart';
+import 'package:imh/pages/settings/data_import/parsers/fuel_import_parser.dart';
+import 'package:imh/pages/settings/data_import/parsers/checkin_import_parser.dart';
 
 class DataImportPage extends StatefulWidget {
   const DataImportPage({super.key});

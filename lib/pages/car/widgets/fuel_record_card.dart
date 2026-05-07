@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../database/models/car_fuel_record.dart';
-import '../../../../theme/app_theme.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
+import 'package:imh/theme/app_theme.dart';
 
 class FuelRecordCard extends StatelessWidget {
   final CarFuelRecord record;

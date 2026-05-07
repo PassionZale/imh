@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
+import 'package:imh/theme/app_theme.dart';
 
 /// CardWidget component for grouping related content
 class CardWidget extends StatelessWidget {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../theme/app_theme.dart';
-import '../../../theme/app_page_route.dart';
-import '../../../database/models/car.dart';
-import '../../../database/models/car_fuel_stats.dart';
-import '../../../repositories/car_fuel_record_repository.dart';
-import 'fuel_chart.dart';
-import '../../home/fuel/fuel_record_list_page.dart';
-import '../../home/fuel/fuel_record_form_page.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/theme/app_page_route.dart';
+import 'package:imh/database/models/car.dart';
+import 'package:imh/database/models/car_fuel_stats.dart';
+import 'package:imh/repositories/car_fuel_record_repository.dart';
+import 'package:imh/pages/car/widgets/fuel_chart.dart';
+import 'package:imh/pages/car/fuel_record_list_page.dart';
+import 'package:imh/pages/car/fuel_record_form_page.dart';
 
 class CarCard extends StatelessWidget {
   final Car car;

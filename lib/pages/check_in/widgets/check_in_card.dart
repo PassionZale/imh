@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../theme/app_theme.dart';
-import '../../../theme/app_page_route.dart';
-import '../../../database/models/check_in_task.dart';
-import '../../home/check_in/check_in_record_list_page.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/theme/app_page_route.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/pages/check_in/check_in_record_list_page.dart';
 
 class CheckInCard extends StatefulWidget {
   final CheckInTask task;

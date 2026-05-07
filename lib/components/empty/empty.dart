@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
+import 'package:imh/theme/app_theme.dart';
 
 /// Empty state widget for displaying when no data is available
 class EmptyWidget extends StatelessWidget {

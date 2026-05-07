@@ -1,5 +1,5 @@
-import '../database/models/car_fuel_record.dart';
-import '../database/database_helper.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
+import 'package:imh/database/database_helper.dart';
 
 /// 只能编辑最新记录的异常
 class NotLatestRecordException implements Exception {

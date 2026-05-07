@@ -1,6 +1,6 @@
 import 'dart:convert';
-import '../../../../database/models/check_in_record.dart';
-import 'date_validator.dart';
+import 'package:imh/database/models/check_in_record.dart';
+import 'package:imh/pages/settings/data_import/parsers/date_validator.dart';
 
 /// 打卡记录导入结果
 class CheckInImportResult {

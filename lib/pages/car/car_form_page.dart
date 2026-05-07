@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../database/models/car.dart';
-import '../../../repositories/car_repository.dart';
-import '../../../theme/app_theme.dart';
+import 'package:imh/database/models/car.dart';
+import 'package:imh/repositories/car_repository.dart';
+import 'package:imh/theme/app_theme.dart';
 
 class CarFormPage extends StatefulWidget {
   final Car? car;

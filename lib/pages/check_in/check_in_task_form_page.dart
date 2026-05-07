@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../database/models/check_in_task.dart';
-import '../../../repositories/check_in_task_repository.dart';
-import '../../../theme/app_theme.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/repositories/check_in_task_repository.dart';
+import 'package:imh/theme/app_theme.dart';
 
 class CheckInTaskFormPage extends StatefulWidget {
   final CheckInTask? task;

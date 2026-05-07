@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../../../theme/app_theme.dart';
-import '../../../database/models/car_fuel_record.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/database/models/car_fuel_record.dart';
 
 /// 图表数据范围配置（月数）
 const int maxChartMonths = 8;

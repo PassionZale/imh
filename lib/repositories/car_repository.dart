@@ -1,5 +1,5 @@
-import '../database/models/car.dart';
-import '../database/database_helper.dart';
+import 'package:imh/database/models/car.dart';
+import 'package:imh/database/database_helper.dart';
 
 class CarRepository {
   Future<Car> create(Car car) async {

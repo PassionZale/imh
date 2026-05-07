@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
-import '../../database/models/check_in_task.dart';
-import '../../database/models/check_in_record.dart';
-import '../../database/models/car.dart';
-import '../../database/models/car_fuel_stats.dart';
-import '../../repositories/check_in_task_repository.dart';
-import '../../repositories/check_in_record_repository.dart';
-import '../../repositories/car_repository.dart';
-import '../../repositories/car_fuel_record_repository.dart';
-import '../../components/empty/empty.dart';
-import '../../theme/app_theme.dart';
-import 'home/check_in_card.dart';
-import 'home/car_card.dart';
+import 'package:imh/database/models/check_in_task.dart';
+import 'package:imh/database/models/check_in_record.dart';
+import 'package:imh/repositories/check_in_task_repository.dart';
+import 'package:imh/repositories/check_in_record_repository.dart';
+import 'package:imh/components/empty/empty.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/pages/check_in/widgets/check_in_card.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CheckInPage extends StatefulWidget {
+  const CheckInPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CheckInPage> createState() => CheckInPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class CheckInPageState extends State<CheckInPage> {
   final _taskRepo = CheckInTaskRepository();
   final _recordRepo = CheckInRecordRepository();
-  final _carRepo = CarRepository();
-  final _fuelRepo = CarFuelRecordRepository();
+  final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   List<CheckInTask> _tasks = [];
   List<CheckInRecord> _todayRecords = [];
   Map<int, int> _totalDaysMap = {};
-  List<Car> _cars = [];
-  Map<int, CarFuelStats> _fuelStatsMap = {};
   bool _loading = true;
 
   String get _today {
@@ -42,21 +34,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _loadData();
+    loadData();
   }
 
-  Future<void> _loadData() async {
+  Future<void> loadData() async {
     final results = await Future.wait([
       _taskRepo.getEnabled(),
       _recordRepo.getByDate(_today),
-      _carRepo.getAll(),
     ]);
 
     final tasks = results[0] as List<CheckInTask>;
     final todayRecords = results[1] as List<CheckInRecord>;
-    final cars = results[2] as List<Car>;
 
-    // Calculate total days and fuel stats in parallel
     final totalDaysFutures = tasks
         .where((t) => t.id != null)
         .map((task) async {
@@ -69,26 +58,14 @@ class _HomePageState extends State<HomePage> {
           task.id!, dateCountMap.values.where((c) => c >= task.frequency).length);
     }).toList();
 
-    final fuelStatsFutures = cars
-        .where((c) => c.id != null)
-        .map((car) async {
-      final records = await _fuelRepo.getByCar(car.id!);
-      return MapEntry(car.id!, CarFuelStats.calculate(records));
-    }).toList();
-
     final totalDaysEntries = await Future.wait(totalDaysFutures);
-    final fuelStatsEntries = await Future.wait(fuelStatsFutures);
-
     final totalDaysMap = Map<int, int>.fromEntries(totalDaysEntries);
-    final fuelStatsMap = Map<int, CarFuelStats>.fromEntries(fuelStatsEntries);
 
     if (mounted) {
       setState(() {
         _tasks = tasks;
         _todayRecords = todayRecords;
         _totalDaysMap = totalDaysMap;
-        _cars = cars;
-        _fuelStatsMap = fuelStatsMap;
         _loading = false;
       });
     }
@@ -104,7 +81,11 @@ class _HomePageState extends State<HomePage> {
       taskId: task.id!,
       date: _today,
     ));
-    await _loadData();
+    await loadData();
+  }
+
+  void refresh() {
+    _refreshIndicatorKey.currentState?.show();
   }
 
   @override
@@ -113,7 +94,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('IMH'),
+        title: const Text('打卡'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -129,14 +110,11 @@ class _HomePageState extends State<HomePage> {
         child: _loading
             ? const Center(child: CircularProgressIndicator())
             : RefreshIndicator(
-                onRefresh: _loadData,
+                key: _refreshIndicatorKey,
+                onRefresh: loadData,
                 child: ListView(
                   padding: EdgeInsets.all(AppTheme.spacing.md),
-                  children: [
-                    ..._buildCheckInCards(),
-                    SizedBox(height: AppTheme.spacing.md),
-                    ..._buildCarCards(),
-                  ],
+                  children: _buildCheckInCards(),
                 ),
               ),
       ),
@@ -164,30 +142,6 @@ class _HomePageState extends State<HomePage> {
           todayCount: _getTodayCount(task.id!),
           totalDays: _totalDaysMap[task.id!] ?? 0,
           onCheckIn: () => _onCheckIn(task),
-        ),
-      );
-    }).toList();
-  }
-
-  List<Widget> _buildCarCards() {
-    if (_cars.isEmpty) {
-      return const [
-        SizedBox(
-          height: 200,
-          child: EmptyWidget(
-            icon: Icons.directions_car_outlined,
-            message: '暂无车辆',
-          ),
-        ),
-      ];
-    }
-    return _cars.map((car) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: AppTheme.spacing.md),
-        child: CarCard(
-          car: car,
-          stats: _fuelStatsMap[car.id!] ?? const CarFuelStats(),
-          onDataChanged: _loadData,
         ),
       );
     }).toList();

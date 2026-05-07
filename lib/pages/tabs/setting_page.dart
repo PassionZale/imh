@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../database/models/user.dart';
-import '../../services/current_user_service.dart';
-import '../../services/theme_service.dart';
-import '../../theme/app_theme.dart';
-import '../../theme/app_page_route.dart';
-import '../settings/user_edit_page.dart';
-import '../settings/check_in/check_in_task_list_page.dart';
-import '../settings/car/car_list_page.dart';
-import '../settings/data_import/data_import_page.dart';
-import '../settings/env_settings_page.dart';
+import 'package:imh/database/models/user.dart';
+import 'package:imh/services/current_user_service.dart';
+import 'package:imh/services/theme_service.dart';
+import 'package:imh/theme/app_theme.dart';
+import 'package:imh/theme/app_page_route.dart';
+import 'package:imh/pages/settings/user_edit_page.dart';
+import 'package:imh/pages/check_in/check_in_task_list_page.dart';
+import 'package:imh/pages/car/car_list_page.dart';
+import 'package:imh/pages/settings/data_import/data_import_page.dart';
+import 'package:imh/pages/settings/env_settings_page.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
